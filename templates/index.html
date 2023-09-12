@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-8 mb-4 order-0">
+                  <div class="card">
+                    <div class="d-flex align-items-end row">
+                      <div class="col-sm-7">
+                        <div class="card-body">
+                          <h5 class="card-title text-primary">Приветствую тебя, мой дорогой друг! 🎉</h5>
+                          <p class="mb-4">
+                            На главной странице я хочу сделать ссылки на самые популярные разделы,
+                            или накрутить виджеты, только нужно понять, какие виджеты можно в целом придумать, и нужны
+                            ли они вообще.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-sm-5 text-center text-sm-left">
+                        <div class="card-body pb-0 px-0 px-md-4">
+                          <img
+                            src="{{ url_for('static', filename='img/illustrations/man-with-laptop-light.png') }}"
+                            height="140"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 mb-4 order-2">
+                  <div class="card">
+                    <div class="d-flex align-items-end row">
+                      <div class="col-sm-7">
+                        <div class="card-body">
+                          <h5 class="card-title text-primary">Рандомный дашборд</h5>
+                          <p class="mb-4">
+
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md">
+                  <div class="card mb-3">
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        <img class="card-img card-img-left" src="{{ url_for('static', filename='img/elements/payment.png') }}" alt="Card image">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">Оплата визитов</h5>
+                          <p class="card-text">
+                            В первую очередь я хочу представить в новом виде инструмент для оплаты загруженных визитов.
+                          </p>
+                          <p class="card-text"><small class="text-muted">2023-08-01</small></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-6">
+
+
+                  <div class="accordion" id="accordionExample">
+                    <div class="card accordion-item active">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                          Кому будет полезен инструмент?
+                        </button>
+                      </h2>
+
+                      <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          Это большая моя полугодовая работа. Некоторые статичные страницы я создам сразу,
+                          далее уже подготовлю шаблон для встраивания в мини-приложения. <br>
+                          Инструмент будет полезен всем, кто хоть немного касается клиентов. <br>
+                          Основной упор на внедрение, 1 линию и 2 линию, так как часто у нас нестандартные кейсы,
+                          которые либо не решаются стандартными инструментами вовсе, либо решаются так,
+                          что <span class="fw-bold">лучше бы не решались</span> 🤪
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card accordion-item">
+                      <h2 class="accordion-header" id="headingTwo">
+                        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionTwo" aria-expanded="false" aria-controls="accordionTwo">
+                          Когда все будет готово?
+                        </button>
+                      </h2>
+                      <div id="accordionTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          Новые функции будут добавляться постепенно. <br>
+                          Чтобы не теряться сразу в интерфейсе, меню будет наполняться по мере релиза приложений. <br>
+                          В первую очередь я создам пару приложений для внедрения, обкатаю новый шаблон,
+                          а затем буду переносить текущий проект tools4u сюда.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card accordion-item">
+                      <h2 class="accordion-header" id="headingThree">
+                        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionThree" aria-expanded="false" aria-controls="accordionThree">
+                          Зачем тебе это надо?
+                        </button>
+                      </h2>
+                      <div id="accordionThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          Просто хочется сделать мир лучше 🥰 <br>
+                          <span class="text-muted">(а еще набраться опыта практической разработки и уйти в dev)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-2">
+                  <div class="card p-3">
+                    <figure class="p-3 mb-0">
+                      <blockquote class="blockquote">
+                        <p>В новом интерфейсе все выглядит сбалансированным</p>
+                      </blockquote>
+                      <figcaption class="blockquote-footer mb-0 text-muted">
+                        Дмитрий Редькин <cite title="Source Title">друг подруги</cite>
+                      </figcaption>
+                    </figure>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+
+
+{% endblock %}

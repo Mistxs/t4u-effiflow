@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+  	<title>{{ title }} - EffiFlow</title>
+    <meta charset="utf-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts/boxicons.css') }}">
+
+
+
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-default.css') }}" class="template-customizer-theme-css" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}" class="template-customizer-core-css" >
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}">
+
+
+	</head>
+
+	<body>
+    <div class="layout-wrapper layout-content-navbar">
+	<!-- Layout wrapper -->
+    <div class="layout-container">
+      <!-- Menu -->
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="index.html" class="app-brand-link">
+              <span class="app-brand-logo demo">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" fill="#4FA8FF" width="24px" height="24px">
+                  <path d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M9 2a7 7 0 0 0-7 7v6a7 7 0 0 0 7 7h6a7 7 0 0 0 7-7v-6a7 7 0 0 0-7-7h-6zm0 2h6a5 5 0 0 1 5 5v6a5 5 0 0 1-5 5h-6a5 5 0 0 1-5-5v-6a5 5 0 0 1 5-5zm1 9h4v2h-4v-2zm0-4h4v2h-4v-2zm-1-6a5 5 0 0 1 5 5h-2a3 3 0 0 0-3-3V3zm0 2v2H9V5h2z"/>
+                </svg>
+              </span>
+            <span class="app-brand-text menu-text fw-bolder ms-2">EffiFlow</span>
+          </a>
+
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+          </a>
+        </div>
+
+        <div class="menu-inner-shadow"></div>
+
+        <ul class="menu-inner py-1">
+          <!-- Dashboard -->
+          <li class="menu-item {% if active_page == 'start' %} active{% endif %}">
+            <a href="/" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-circle"></i>
+              <div data-i18n="Analytics">Сводная</div>
+            </a>
+          </li>
+
+          <!-- Layouts -->
+          <li class="menu-item {% if route == 'knowledge' %} active open{% endif %}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bx-layout"></i>
+              <div data-i18n="Layouts">Справочная</div>
+            </a>
+
+            <ul class="menu-sub">
+              <li class="menu-item {% if active_page == 'getanyid' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='getanyid', route='knowledge') }}" class="menu-link">
+                  <div data-i18n="Without menu">Как получить ID чего либо?</div>
+                </a>
+              </li>
+              <li class="menu-item {% if active_page == 'kkm' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='kkm', route='knowledge') }}" class="menu-link">
+                  <div data-i18n="Without menu">Статьи про ККМ</div>
+                </a>
+              </li>
+              <li class="menu-item {% if active_page == 'sql' %} active{% endif %}">
+               <a href="{{ url_for('page_engine', page_name='sql', route='knowledge') }}" class="menu-link">
+                  <div data-i18n="Container">Частые SQL запросы</div>
+                </a>
+              </li>
+              <li class="menu-item {% if active_page == 'faq' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='faq', route='knowledge') }}" class="menu-link">
+                  <div data-i18n="Fluid">Нетипичные кейсы</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">1 Линия</span>
+          </li>
+
+          <li class="menu-item {% if route == 'kkm' %} active open{% endif %}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bx-layout"></i>
+              <div data-i18n="Layouts">ККМ</div>
+            </a>
+
+            <ul class="menu-sub">
+              <li class="menu-item {% if active_page == 'fsr' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='fsr', route='kkm') }}" class="menu-link">
+                  <div data-i18n="Container">Forse Save Result</div>
+                </a>
+              </li>
+              <li class="menu-item {% if active_page == 'unlocker' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='unlocker', route='kkm') }}" class="menu-link">
+                  <div data-i18n="Container">Разблокировка визитов</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="{{ url_for('page_engine', page_name='overpayed', route='superpage') }}" class="menu-link">
+                  <div data-i18n="Container">Поиск переплат</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-item {% if route == 'superpage' %} active open{% endif %}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bx-layout"></i>
+              <div data-i18n="Layouts">Супер-Разделы</div>
+            </a>
+
+            <ul class="menu-sub">
+              <li class="menu-item {% if active_page == 'loyalty' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='loyalty', route='superpage') }}" class="menu-link">
+                  <div data-i18n="Container">Лояльность</div>
+                </a>
+              </li>
+              <li class="menu-item {% if active_page == 'daydetails' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='daydetails', route='superpage') }}" class="menu-link">
+                  <div data-i18n="Container">Записи за день</div>
+                </a>
+              </li>
+              <li class="menu-item {% if active_page == 'overpayed' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='overpayed', route='superpage') }}" class="menu-link">
+                  <div data-i18n="Container">Поиск переплат</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">2 Линия</span>
+          </li>
+
+          <!-- Cards -->
+          <li class="menu-item {% if active_page == 'fiosplitter' %} active{% endif %}">
+           <a href="{{ url_for('page_engine', page_name='fiosplitter', route='2ndline') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <div data-i18n="Basic">Сплиттер ФИО</div>
+            </a>
+          </li>
+          <li class="menu-item {% if active_page == 'doubleslots' %} active{% endif %}">
+           <a href="{{ url_for('page_engine', page_name='doubleslots', route='2ndline') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <div data-i18n="Basic">Пересохранение расписания</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <div data-i18n="Basic">Поиск по трекеру</div>
+            </a>
+          </li>
+          <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Внедрение</span>
+          </li>
+
+          <li class="menu-item {% if active_page == 'copytcard' %} active{% endif %}">
+            <a href="{{ url_for('page_engine', page_name='copytcard', route='vnedrenie/goods')}}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <div data-i18n="Basic">Технологические карты</div>
+            </a>
+          </li>
+
+        </ul>
+      </aside>
+      <!-- / Menu -->
+<!-- Layout container -->
+        <div class="layout-page">
+
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-4" href="#">
+                <i class="bx bx-menu bx-sm"></i>
+              </a>
+            </div>
+
+
+          <!-- / Navbar -->
+
+
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="row">
+
+                          {% block content %}
+                          {% endblock %}
+
+
+            <!-- Footer -->
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                <div class="mb-2 mb-md-0">
+                  <pre>core ver.: 0.03 | ui ver.: 0.06</pre>
+                  По любым вопросам работы приложения пишите сразу в Slack.
+                </div>
+                <div>
+                  <a href="https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/tools4u" class="footer-link me-4" target="_blank">Tools4U</a>
+                  <a href="https://wiki.yandex.ru/product/second-line/tools4u-guide/" target="_blank" class="footer-link me-4">Страница в WIKI</a>
+                  <a href="https://wiki.yandex.ru/product/second-line/tools4u-guide/" target="_blank" class="footer-link me-4">Экстренные контакты</a>
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+
+
+      </div>
+      </div>
+      <!-- / Layout wrapper -->
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle">      </div>
+
+
+
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+		<script>
+			  const prewarnElements = document.querySelectorAll('.prewarn');
+			  let currentIndex = 0;
+
+			  function showNextElement() {
+				prewarnElements[currentIndex].style.opacity = 0;
+				currentIndex = (currentIndex + 1) % prewarnElements.length;
+				prewarnElements[currentIndex].style.opacity = 1;
+				setTimeout(showNextElement, 8000); // Задержка между сменой элементов в миллисекундах
+			  }
+
+			  showNextElement();
+		</script>
+	</body>
+</html>
