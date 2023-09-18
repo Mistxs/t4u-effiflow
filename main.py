@@ -30,4 +30,4 @@ def page_engine(route,page_name):
 
 
 if __name__ == '__main__':
-    app.run(port=3010)
+    app.run(port=3000)
