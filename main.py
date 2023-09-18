@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-
+from apps.fiosplitter import fiosplitter
 
 # from resafe import *
 import re
@@ -7,7 +7,7 @@ import re
 app = Flask(__name__)
 
 # Регистрация приложений
-# app.register_blueprint(fsr)
+app.register_blueprint(fiosplitter)
 
 app.static_folder = 'static'
 
