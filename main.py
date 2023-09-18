@@ -26,8 +26,8 @@ def vnedrenie_page(page_name,route):
 @app.route('/<route>/<page_name>')
 def page_engine(route,page_name):
     title = f'{page_name}'
-    return render_template(f'/{route}/{page_name}.html', title=title, active_page=page_name, route='vnedrenie')
+    return render_template(f'/{route}/{page_name}.html', title=title, active_page=page_name, route=route)
 
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run(port=3010)
