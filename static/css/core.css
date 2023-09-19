@@ -3382,11 +3382,13 @@ textarea.form-control-lg {
   white-space: nowrap;
 }
 .navbar-nav {
-  display: flex;
-  flex-direction: column;
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
+    display: flex;
+    /* background: #e8e8ee9c; */
+    box-shadow: 0 2px 6px 0 rgba(67, 89, 113, 0.12);
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
 }
 .navbar-nav .nav-link {
   padding-right: 0;
@@ -15384,7 +15386,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 
 .layout-content-navbar .layout-page {
   flex-basis: 100%;
-  flex-direction: column;
+  flex-direction: row;
   width: 0;
   min-width: 0;
   max-width: 100%;

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
   <head>
   	<title>{{ title }} - EffiFlow</title>
     <meta charset="utf-8">
@@ -27,7 +27,7 @@
       <!-- Menu -->
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
-          <a href="index.html" class="app-brand-link">
+          <a href="/" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" fill="#4FA8FF" width="24px" height="24px">
                   <path d="M0 0h24v24H0z" fill="none"/>
@@ -61,9 +61,15 @@
             </a>
 
             <ul class="menu-sub">
+
               <li class="menu-item {% if active_page == 'getanyid' %} active{% endif %}">
                 <a href="{{ url_for('page_engine', page_name='getanyid', route='knowledge') }}" class="menu-link">
                   <div data-i18n="Without menu">Как получить ID чего либо?</div>
+                </a>
+              </li>
+              <li class="menu-item {% if active_page == 'kibana' %} active{% endif %}">
+                <a href="{{ url_for('page_engine', page_name='kibana', route='knowledge') }}" class="menu-link">
+                  <div data-i18n="Without menu">Практические примеры в kibana</div>
                 </a>
               </li>
               <li class="menu-item {% if active_page == 'kkm' %} active{% endif %}">
@@ -164,12 +170,19 @@
           <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Внедрение</span>
           </li>
-
-          <li class="menu-item {% if active_page == 'copytcard' %} active{% endif %}">
-            <a href="{{ url_for('page_engine', page_name='copytcard', route='vnedrenie/goods')}}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-collection"></i>
-              <div data-i18n="Basic">Технологические карты</div>
+           <li class="menu-item {% if route == 'vnedrenie' %} active open{% endif %}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bx-layout"></i>
+              <div data-i18n="Layouts">Склад</div>
             </a>
+              <ul class="menu-sub">
+                <li class="menu-item {% if active_page == 'copytcard' %} active{% endif %}">
+                  <a href="{{ url_for('page_engine', page_name='copytcard', route='vnedrenie/goods')}}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-collection"></i>
+                    <div data-i18n="Basic">Технологические карты</div>
+                  </a>
+                </li>
+              </ul>
           </li>
 
         </ul>
@@ -179,7 +192,7 @@
         <div class="layout-page">
 
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-              <a class="nav-item nav-link px-0 me-xl-4" href="#">
+              <a class="nav-item nav-link p-2 me-xl-4" href="#">
                 <i class="bx bx-menu bx-sm"></i>
               </a>
             </div>
@@ -204,7 +217,8 @@
             <footer class="content-footer footer bg-footer-theme">
               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                 <div class="mb-2 mb-md-0">
-                  <pre>core ver.: 0.03 | ui ver.: 0.06</pre>
+                  <pre>core ver.: 0.04 | ui ver.: 0.07 | build_ts: {{ ts }}</pre>
+
                   По любым вопросам работы приложения пишите сразу в Slack.
                 </div>
                 <div>
@@ -291,18 +305,7 @@
 		<script src="{{ url_for('static', filename='js/menu.js') }}"></script>
         <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-		<script>
-			  const prewarnElements = document.querySelectorAll('.prewarn');
-			  let currentIndex = 0;
 
-			  function showNextElement() {
-				prewarnElements[currentIndex].style.opacity = 0;
-				currentIndex = (currentIndex + 1) % prewarnElements.length;
-				prewarnElements[currentIndex].style.opacity = 1;
-				setTimeout(showNextElement, 8000); // Задержка между сменой элементов в миллисекундах
-			  }
 
-			  showNextElement();
-		</script>
 	</body>
 </html>
