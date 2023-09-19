@@ -178,3 +178,22 @@
     box-shadow: none;
     transform: translateX(3px);
 }
+
+
+/* Создайте класс для анимации */
+.slide-in {
+    animation: slide-in 0.5s ease forwards;
+    display: none; /* Начально скрываем элемент */
+}
+
+/* Определите анимацию */
+@keyframes slide-in {
+    from {
+        transform: translateY(-20px); /* Начальное положение элемента */
+        opacity: 0; /* Начальная непрозрачность */
+    }
+    to {
+        transform: translateY(0); /* Конечное положение элемента */
+        opacity: 1; /* Конечная непрозрачность */
+    }
+}

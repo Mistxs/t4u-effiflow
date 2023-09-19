@@ -1,4 +1,83 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 class="h2">{{ title }}</h1>
+    <h1 class="h2">{{title}}</h1>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card bg-secondary text-white mb-4">
+            <div class="card-body">
+                <p class="card-text">
+                Задача в трекере - <a href = "https://tracker.yandex.ru/POS-96" target="_blank">
+                    https://tracker.yandex.ru/POS-96</a>.
+                <br>
+                Выполняются две задачи - проверка статуса документа (чтобы вы видели, действительно ошибка в этом,
+                    или нет) и сама разблокировка.
+                </p>
+                <p class="card-text">
+                Работает только с ККМСервером (да и 90% проблем именно с ним), Эвотор, Лайфпей, Модульку -
+                    можно попробовать, но скорее всего нужно будет делать задачу на 2Л на sql обновление.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card bg-info text-white mb-4">
+            <div class="card-header">История статусов запросов</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 docstatus" style="display: none;">
+                            <span class="badge bg-success">Success</span>
+                            <span class="badge bg-danger">Failed</span>
+                            <h5 class="card-title text-white">Получение документа</h5>
+                            <p class="card-text"></p>
+                        </div>
+                        <div class="col-md-4 pushstatus" style="display: none;">
+                            <span class="badge bg-success">Success</span>
+                            <span class="badge bg-danger">Failed</span>
+                            <h5 class="card-title text-white">Попытка исправления</h5>
+                            <p class="card-text"></p>
+                        </div>
+                        <div class="col-md-4 docstatus_after" style="display: none;">
+                            <span class="badge bg-success">Success</span>
+                            <span class="badge bg-danger">Failed</span>
+                            <h5 class="card-title text-white">Повторная проверка статуса</h5>
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="input-group">
+                        <input type="text" class="form-control kkm_input" placeholder="https://yclients.com/kkm/transactions/details/67248544/">
+                        <button class="btn btn-outline-warning" type="button" id="checkbtn" onclick="getstatus()">
+                            <i id="spinner" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                            Статус визита</button>
+                        <button class="btn btn-outline-success" type="button" id="runbtn" onclick="runForce()">
+                            <i id="spinner2" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                            Исправить</button>
+    </div>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="jsonModal" tabindex="-1" aria-labelledby="jsonModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jsonModalLabel">Полный JSON-ответ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <pre id="jsonResponse"></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="{{ url_for('static', filename='js/fsr.js') }}"></script>
 {% endblock %}
