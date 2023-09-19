@@ -113,7 +113,68 @@
     box-shadow: 0 2px 4px 0 rgba(105, 108, 255, 0.4);
 }
 
+.form-check-input:focus {
+    border-color: #696cff;
+    box-shadow: 0 2px 4px 0 rgba(105, 108, 255, 0.4);
+}
 
-.checkbox-wrapper{
-min-width: 100px;
+
+.form-switch .form-check-input:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23696cff'/%3e%3c/svg%3e")!important;
+}
+.form-switch .form-check-input:checked {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")!important;
+}
+
+.form-floating > i.bx-search {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 1rem 0.875rem;
+    pointer-events: none;
+    border: 1px solid transparent;
+    transform-origin: 0 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+
+.form-floating > i.bx-x {
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    opacity: 0;
+    right: 6rem;
+    font-size: 1.5rem;
+    height: 100%;
+    padding: 1rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transform-origin: 0 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+
+.form-floating > button {
+
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    opacity: 0;
+    right: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.form-floating > .btn-outline-secondary:hover,
+.form-floating > .btn-outline-secondary:active,
+.form-floating > .btn-outline-secondary:focus
+{
+    color: #8f91ff;
+    background-color: #ffffff00;
+    border-color:  #ffffff00;
+    box-shadow: none;
+    transform: translateX(3px);
 }

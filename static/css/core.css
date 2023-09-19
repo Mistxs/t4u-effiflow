@@ -2622,7 +2622,7 @@ textarea.form-control-lg {
 .form-floating > label {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 40px;
   height: 100%;
   padding: 1rem 0.875rem;
   pointer-events: none;
@@ -2637,6 +2637,7 @@ textarea.form-control-lg {
 }
 .form-floating > .form-control {
   padding: 1rem 0.875rem;
+      padding-left: 60px;
 }
 .form-floating > .form-control::-moz-placeholder {
   color: transparent;

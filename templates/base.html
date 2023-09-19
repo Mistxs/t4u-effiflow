@@ -3,17 +3,17 @@
   <head>
   	<title>{{ title }} - EffiFlow</title>
     <meta charset="utf-8">
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
+      <script src="https://kit.fontawesome.com/7db479299e.js" crossorigin="anonymous"></script>
+
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}" class="template-customizer-core-css" >
 
       <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts/boxicons.css') }}">
 
 
       <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-default.css') }}" class="template-customizer-theme-css" >
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}" class="template-customizer-core-css" >
+
       <link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}">
 
 
@@ -22,6 +22,9 @@
 	<body>
     <div class="layout-wrapper layout-content-navbar">
 	<!-- Layout wrapper -->
+
+
+
     <div class="layout-container">
       <!-- Menu -->
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -191,19 +194,42 @@
         <div class="layout-page">
 
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+
               <a class="nav-item nav-link p-2 me-xl-4" href="#">
                 <i class="bx bx-menu bx-sm"></i>
               </a>
             </div>
 
 
-          <!-- / Navbar -->
 
+
+          <!-- / Navbar -->
 
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
+
+            <div class="layout-navbar navbar-detached align-items-center p-1">
+
+
+
+
+                <div class="form-floating ">
+
+                  <input type="text" class="form-control  border-0 shadow-none" id="floatingInput" placeholder="не удается списать услугу" aria-describedby="floatingInputHelp">
+                  <i class="bx bx-x" id="clearInput"></i>
+                  <i class="bx bx-search fs-4 lh-0"></i>
+                  <button type="button" id="srchButton" class="btn btn-outline-secondary">Найти</button>
+
+                  <label for="floatingInput">Поиск в трекере:</label>
+
+                </div>
+
+
+
+
+            </div>
 
             <div class="container-xxl flex-grow-1 container-p-y">
                 <div class="row">
@@ -306,7 +332,7 @@
 		<script src="{{ url_for('static', filename='js/menu.js') }}"></script>
         <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
+        <script src="{{ url_for('static', filename='js/searchAW.js') }}"></script>
 
 	</body>
 </html>
