@@ -12,14 +12,18 @@ app.register_blueprint(tsearch)
 app.static_folder = 'static'
 
 # Роуты для вебстраниц (не действий)
-from datetime import datetime
+from datetime import datetime, timedelta
+import pytz
+
 ts = datetime.now()
+timezone = pytz.timezone('Etc/GMT-3')
+ts_msk = ts.astimezone(timezone)
 
 
 @app.route('/')
 def index():
     title = 'Стартовая'
-    return render_template('index.html', title=title, active_page='start', ts=ts)
+    return render_template('index.html', title=title, active_page='start', ts=ts_msk)
 
 @app.route('/vnedrenie/<route>/<page_name>')
 def vnedrenie_page(page_name,route):

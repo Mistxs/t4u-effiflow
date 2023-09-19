@@ -1,21 +1,14 @@
-def generate_sql_query(abonement_ids):
-    sql_query = "INSERT INTO salon.loyalty_abonement_type_service_links (service_id, service_category_id, count, abonement_type_id)\nVALUES\n"
+from datetime import datetime
+import pytz
 
-    values = []
-    for abonement_id in abonement_ids:
-        values.append("  (0, 13483294, 0, {}),".format(abonement_id))
-        values.append("  (0, 13459880, 0, {}),".format(abonement_id))
+# Получение текущей временной метки
+ts = datetime.now()
 
-    sql_query += "\n".join(values)
-    sql_query = sql_query.rstrip(',') + ";"
+# Определение временной зоны UTC+3 (Московское время)
+timezone = pytz.timezone('Etc/GMT-3')
 
-    return sql_query
+# Преобразование временной метки во временную зону UTC+3
+ts_utc_plus_3 = ts.astimezone(timezone)
 
-abonement_ids = [597852,
-597853,
-597856,
-597857,
-599126
-]  # Здесь можно указать нужные abonement_id
-sql_query = generate_sql_query(abonement_ids)
-print(sql_query)
+print("Local time:", ts)
+print("UTC+3 time:", ts_utc_plus_3)
