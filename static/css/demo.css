@@ -105,3 +105,15 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+
+.form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
+    background-color: #696cff;
+    border-color: #696cff;
+    box-shadow: 0 2px 4px 0 rgba(105, 108, 255, 0.4);
+}
+
+
+.checkbox-wrapper{
+min-width: 100px;
+}

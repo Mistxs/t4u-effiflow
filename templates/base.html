@@ -12,9 +12,8 @@
       <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts/boxicons.css') }}">
 
 
-
       <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-default.css') }}" class="template-customizer-theme-css" >
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}" class="template-customizer-core-css" >
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}" class="template-customizer-core-css" >
       <link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}">
 
 
@@ -161,8 +160,8 @@
               <div data-i18n="Basic">Пересохранение расписания</div>
             </a>
           </li>
-          <li class="menu-item">
-            <a href="#" class="menu-link">
+          <li class="menu-item {% if active_page == 'search' %} active{% endif %}">
+            <a href="{{ url_for('page_engine', page_name='search', route='2ndline') }}" class="menu-link">
               <i class="menu-icon tf-icons bx bx-collection"></i>
               <div data-i18n="Basic">Поиск по трекеру</div>
             </a>

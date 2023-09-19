@@ -1,19 +1,21 @@
 from flask import Flask, render_template, request, jsonify
 from apps.fiosplitter import fiosplitter
+from apps.search import tsearch
 
-# from resafe import *
-import re
 
 app = Flask(__name__)
 
 # Регистрация приложений
 app.register_blueprint(fiosplitter)
+app.register_blueprint(tsearch)
 
 app.static_folder = 'static'
 
 # Роуты для вебстраниц (не действий)
 from datetime import datetime
 ts = datetime.now()
+
+
 @app.route('/')
 def index():
     title = 'Стартовая'
