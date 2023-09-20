@@ -100,7 +100,7 @@ function runForce() {
             docStatusElement.classList.add('slide-in'); // Добавляем класс для анимации
 
             checkStatus();
-            
+
             // Скрываем спиннер и разблокируем кнопку после выполнения запроса
             buttonElement.disabled = false;
             spinnerElement.style.display = 'none';
