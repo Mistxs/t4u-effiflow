@@ -81,7 +81,7 @@ function createStatusFilter(statuses) {
         checkbox.classList.add('form-check-input');
         checkbox.value = status;
         checkbox.id = 'flexSwitch' + index;
-        checkbox.checked = true; // Установите значение true или false, в зависимости от вашего выбора.
+        checkbox.checked = false; // Установите значение true или false, в зависимости от вашего выбора.
         checkbox.addEventListener('change', applyFilters);
 
         let label = document.createElement('label');
