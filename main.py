@@ -6,9 +6,10 @@ from apps.search import tsearch
 from apps.fsr import fsr
 from pageindex import pageindex
 from apps.superbar import superbar
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.static_folder = 'static'
 
 # Регистрация приложений
