@@ -5,6 +5,7 @@ from apps.fiosplitter import fiosplitter
 from apps.search import tsearch
 from apps.fsr import fsr
 from pageindex import pageindex
+from apps.superbar import superbar
 
 
 app = Flask(__name__)
@@ -14,6 +15,7 @@ app.static_folder = 'static'
 app.register_blueprint(fiosplitter)
 app.register_blueprint(tsearch)
 app.register_blueprint(fsr)
+app.register_blueprint(superbar)
 
 
 ts = datetime.now()
