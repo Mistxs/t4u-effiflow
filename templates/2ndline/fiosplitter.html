@@ -4,24 +4,53 @@
 <div>
     <section>
         <div class="container-fluid px-3 px-md-0">
+
             <div class="row">
+
+
+            <div class="col-md-3">
+                <div class="card bg-secondary text-white mb-4">
+                <div class="card-header">Настройки</div>
+                <div class="card-body">
+                    <div class="form-group mb-2">
+                    <label class="label" for="salon">ID филиала</label>
+                                                    <input type="number" class="form-control" name="salon" id="salon" placeholder="4564">
+
+                    <label class="label" for="salon">Логин владельца</label>
+                                                    <input type="text" class="form-control" name="salon" id="login" placeholder="a.panov@ycients.tech">
+
+                    <label class="label" for="salon">Пароль владельца</label>
+                                                    <input type="password" class="form-control" name="salon" id="pass" placeholder="apanov">
+                    </div>
+
+                    <div class="settings">
+                        <div class="form-check form-switch mb-2">
+                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch0">
+                            <label class="form-check-label" for="flexSwitch0">Смарт-режим</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch1">
+                            <label class="form-check-label" for="flexSwitch1">Ошибки по завершению</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch2">
+                            <label class="form-check-label" for="flexSwitch2">Отправить push в Slack по завершению</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input type="checkbox" name="fios-set" class="form-check-input" value="smart" id="flexSwitch3">
+                            <label class="form-check-label" for="flexSwitch3">Режим восстановления</label>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
+
                 <div class="col-md-12">
                    <form  onsubmit="event.preventDefault();">
                                         <div class="row">
-                                             <div class="form-group row">
-                                                <div class="col-md-3">
-                                                    <label class="label" for="salon">ID филиала</label>
-                                                    <input type="number" class="form-control" name="salon" id="salon" placeholder="4564">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label class="label" for="salon">Логин владельца</label>
-                                                    <input type="text" class="form-control" name="salon" id="login" placeholder="a.panov@ycients.tech">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label class="label" for="salon">Пароль владельца</label>
-                                                    <input type="password" class="form-control" name="salon" id="pass" placeholder="apanov">
-                                                </div>
-                                             </div>
+
                                         </div>
                                         <div class="row">
 
