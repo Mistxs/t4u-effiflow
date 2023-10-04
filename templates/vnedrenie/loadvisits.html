@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 class="h2">{{ title }}</h1>
+
+    <form id="upload-form" action="/visits/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xls" required>
+        <button type="submit">Загрузить</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+
+            fetch('/visits/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '<h2>Результат:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        });
+    </script>
+
+{% endblock %}

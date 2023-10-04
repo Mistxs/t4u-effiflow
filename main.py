@@ -6,17 +6,20 @@ from apps.search import tsearch
 from apps.fsr import fsr
 from pageindex import pageindex
 from apps.superbar import superbar
+from apps.loadvisits import loadvisits
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 app.static_folder = 'static'
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # Регистрация приложений
 app.register_blueprint(fiosplitter)
 app.register_blueprint(tsearch)
 app.register_blueprint(fsr)
 app.register_blueprint(superbar)
+app.register_blueprint(loadvisits)
 
 
 ts = datetime.now()
@@ -30,12 +33,7 @@ def index():
     title = 'Стартовая'
     return render_template('index.html', title=title, active_page='start', ts=ts_msk)
 
-@app.route('/vnedrenie/<route>/<page_name>')
-def vnedrenie_page(page_name,route):
-    title = pageindex[f"{page_name}"]
-    return render_template(f'vnedrenie/{route}/{page_name}.html', title=title, active_page=page_name, route='vnedrenie', ts=ts)
-
-@app.route('/<route>/<page_name>')
+@app.route('/<route>/<page_name>', methods = ['GET'])
 def page_engine(route,page_name):
     title = pageindex[f"{page_name}"]
     return render_template(f'/{route}/{page_name}.html', title=title, active_page=page_name, route=route, ts=ts)

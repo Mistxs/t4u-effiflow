@@ -1,3 +1,6 @@
+#вспомогательный модуль для обработки тикетов из браузера (серверная часть расширения)
+
+
 from flask import Blueprint, request, jsonify
 
 import datetime

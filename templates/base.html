@@ -172,19 +172,17 @@
           <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Внедрение</span>
           </li>
-           <li class="menu-item {% if route == 'vnedrenie' %} active open{% endif %}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class="menu-icon tf-icons bx bx-layout"></i>
-              <div data-i18n="Layouts">Склад</div>
+          <li class="menu-item {% if active_page == 'loadvisits' %} active{% endif %}">
+            <a href="{{ url_for('page_engine', page_name='loadvisits', route='vnedrenie') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <div data-i18n="Basic">Загрузка визитов</div>
             </a>
-              <ul class="menu-sub">
-                <li class="menu-item {% if active_page == 'copytcard' %} active{% endif %}">
-                  <a href="{{ url_for('page_engine', page_name='copytcard', route='vnedrenie/goods')}}" class="menu-link">
+          </li>
+          <li class="menu-item {% if active_page == 'copytcard' %} active{% endif %}">
+                  <a href="{{ url_for('page_engine', page_name='copytcard', route='vnedrenie')}}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-collection"></i>
                     <div data-i18n="Basic">Технологические карты</div>
                   </a>
-                </li>
-              </ul>
           </li>
 
         </ul>
