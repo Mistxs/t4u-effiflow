@@ -63,9 +63,12 @@ def read_xls_file(file_path):
     workbook = xlrd.open_workbook(file_path)
     sheet = workbook.sheet_by_index(0)  # Предполагаем, что данные находятся на первом листе
 
-    for row_index in range(1, sheet.nrows):  # Пропускаем заголовок, начинаем с 1 строки
-        row_data = sheet.row_values(row_index)
-        data.append(row_data)
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        record = {}
+        for col_idx, value in enumerate(row, start=1):
+            column_name = chr(64 + col_idx)  # Преобразование номера столбца в букву
+            record[column_name] = value
+        data.append(record)
 
     return data
 
@@ -73,8 +76,10 @@ def read_xlsx_file(file_path):
     data = []
     workbook = load_workbook(file_path, read_only=True)
     sheet = workbook.active
-
-    for row in sheet.iter_rows(min_row=2, values_only=True):  # Пропускаем заголовок, начинаем с 2 строки
-        data.append(row)
-
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        record = {}
+        for col_idx, value in enumerate(row, start=1):
+            column_name = chr(64 + col_idx)  # Преобразование номера столбца в букву
+            record[column_name] = value
+        data.append(record)
     return data

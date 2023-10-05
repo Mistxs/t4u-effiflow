@@ -2,31 +2,25 @@
 {% block content %}
     <h1 class="h2">{{ title }}</h1>
 
-    <form id="upload-form" action="/visits/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".xls" required>
-        <button type="submit">Загрузить</button>
-    </form>
-    <div id="result"></div>
 
-    <script>
-        document.getElementById('upload-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <form id="upload-form" action="/visits/upload" method="POST" enctype="multipart/form-data">
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="inputGroupFile04"  id="formFile" name="file" accept=".xls, .xlsx" required aria-describedby="inputGroupFileAddon04" aria-label="Выберите файл для загрузки">
+                        <button class="btn btn-outline-primary" type="submit" id="inputGroupFileAddon04">Загрузить</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card resultTable" style="display:none">
+            <h5 class="card-header">Результат парсинга загруженного файла</h5>
+            <div id="result" class="overflow table-responsive"></div>
+        </div>
+    </div>
 
-            var formData = new FormData(this);
 
-            fetch('/visits/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                var resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = '<h2>Результат:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-            });
-        });
-    </script>
+<script src="{{ url_for('static', filename='js/loadvisits.js') }}"></script>
 
 {% endblock %}

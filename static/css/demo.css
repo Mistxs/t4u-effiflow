@@ -197,3 +197,9 @@
         opacity: 1; /* Конечная непрозрачность */
     }
 }
+
+
+.overflow {
+overflow-x:auto;
+}
+
