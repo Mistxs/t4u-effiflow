@@ -203,3 +203,7 @@
 overflow-x:auto;
 }
 
+.resultTable .form-select {
+    background-clip: padding-box;
+    min-width: 250px;
+}
