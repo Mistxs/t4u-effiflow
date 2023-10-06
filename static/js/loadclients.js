@@ -13,7 +13,7 @@ function displaySuccessMessage(message) {
     errorMessage.removeClass('alert-danger').addClass('alert-success').slideDown();
     setTimeout(function() {
         errorMessage.slideUp();
-    }, 3000);
+    }, 30000);
 }
 
 document.getElementById('upload-form').addEventListener('submit', function(event) {
@@ -22,6 +22,8 @@ document.getElementById('upload-form').addEventListener('submit', function(event
             var formData = new FormData(this);
             const tableWrap = document.querySelector('.resultTable');
             tableWrap.classList.remove('slide-in');
+            var resultContainer = document.getElementById('result');
+            resultContainer.innerHTML = '<div class="loader"><i class="fa fa-spinner fa-spin"></i> Ждем...</div>';
 
             fetch('/clients/upload', {
                 method: 'POST',
@@ -29,10 +31,11 @@ document.getElementById('upload-form').addEventListener('submit', function(event
             })
             .then(response => response.json())
             .then(data => {
-                var resultDiv = document.getElementById('result');
-                var clients = data.data
-//                resultDiv.innerHTML = '<h2>Результат:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
-                drawTable(clients)
+//                var resultDiv = document.getElementById('result');
+                resultContainer.innerHTML = "";
+                displaySuccessMessage(data.text)
+//                tableWrap.innerHTML = '<h2>Результат:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+//                drawTable(clients)
             })
             .catch(error => {
                 console.error('Ошибка:', error);

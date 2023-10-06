@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 class="h2">{{ title }}</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-header">Теперь все элементы в единой стилистике.</div>
+            <div class="card-body">
+                <p class="card-text">
+               Это универсальная страница для поиска визитов, в которых были начисления лояльности (наконец-то с сертификатами!)
+<br>
+                Все просто - вставляете ссылку на страницу карты лояльности (экземпляра абонемента или сертикифата), нажимаете показать, видите копию данных с этой страницы + ссылки на визиты, где была создана операция
+</p >
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="input-group">
+                        <input type="text" class="form-control" name="cardlink" id="cardlink"  placeholder="https://yclients.com/group_loyalty_cards/show/525984/51820774">
+                        <button class="btn btn-outline-warning" type="button" id="checkbtn" onclick="getdata()">
+                            <i id="spinner" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                            Получить данные</button>
+    </div>
+</div>
+
+    <div class="row p-4 resultTable">
+        <div id="result" class="card overflow table-responsive"></div>
+        </div>
+    </div>
+
+
+<script src="{{ url_for('static', filename='js/superloyal.js') }}"></script>
+
+{% endblock %}

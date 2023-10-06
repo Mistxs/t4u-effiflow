@@ -2,14 +2,14 @@ import datetime
 import json
 import os
 from concurrent.futures import ThreadPoolExecutor
-import logging
+# import logging
 
 import requests
 from flask import request, jsonify, Blueprint, current_app, Response
 import xlrd
 from config import bearer, db_params, headers
 from openpyxl import load_workbook
-logging.basicConfig(filename='loadclients.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# logging.basicConfig(filename='loadclients.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 
@@ -49,7 +49,7 @@ def upload_file():
         data = read_excel_file(file_path)
 
         # Возвращаем данные в формате JSON
-        return jsonify({'data': data})
+        return jsonify({'status': 'success', 'text': "Загружено успешно, можно сохранять"})
     else:
         return jsonify({'error': 'Invalid file type'}), 400
 
@@ -134,12 +134,12 @@ def saveResult(salon, data, headers, usertoken):
             "surname": item.get("surname", "")
         })
         response = requests.request("POST", url, headers=headers, data=payload)
-        logging.info(response.text)
+        # logging.info(response.text)
 
     with ThreadPoolExecutor() as executor:
         executor.map(process_item, data)
     end = datetime.datetime.now()
-    logging.info(f"query is running {end-now}")
+    # logging.info(f"query is running {end-now}")
     return data
 
 

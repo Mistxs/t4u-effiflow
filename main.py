@@ -5,9 +5,11 @@ from flask import Flask, render_template, Response
 from apps.fiosplitter import fiosplitter
 from apps.search import tsearch
 from apps.fsr import fsr
+from apps.unlocker import unlocker
 from pageindex import pageindex
 from apps.superbar import superbar
 from apps.loadvisits import loadvisits
+from apps.superloyal import superloyal
 from flask_cors import CORS
 
 from apps.loadclients import loadclients
@@ -21,9 +23,11 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.register_blueprint(fiosplitter)
 app.register_blueprint(tsearch)
 app.register_blueprint(fsr)
+app.register_blueprint(unlocker)
 app.register_blueprint(superbar)
 app.register_blueprint(loadvisits)
 app.register_blueprint(loadclients)
+app.register_blueprint(superloyal)
 
 
 ts = datetime.now()
@@ -45,4 +49,4 @@ def page_engine(route,page_name):
 
 
 if __name__ == '__main__':
-    app.run(port=3110)
+    app.run(port=3020)

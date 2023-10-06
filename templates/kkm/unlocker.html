@@ -2,48 +2,55 @@
 {% block content %}
     <h1 class="h2">{{ title }}</h1>
 
-
-<div class="container-fluid px-3 px-md-0">
-
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="wrapper">
-                        <div class="row no-gutters">
-                            <div class="col-lg-8 col-md-7 order-md-last d-flex align-items-stretch">
-                                <div class="contact-wrap w-100 p-md-5 p-4">
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="label" for="name">Ссылка на запись или ккм операцию</label>
-                                                    <input type="text" class="form-control" name="record_link" id="record_link" placeholder="https://yclients.com/timetable/232685#main_date=2023-05-22&open_modal_by_record_id=626695500">
-                                                </div>
-                                            </div>
-                                                <div class="col-md-12">
-                                                  <div class="form-group">
-                                                    <input type="button" value="Отправить на разблокировку" class="btn action-btn" onclick="unlock()">
-                                                    <input type="button" value="Получить запись" class="btn btn-primary" onclick="getinfo()">
-                                                    <div id="loader" style="display: none;"><i class="fa fa-spinner fa-spin"></i> Ждем...</div>
-                                                  </div>
-                                                </div>
-
-                                        </div>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-5 d-flex align-items-stretch">
-                                <div class="info-wrap bg-primary w-100 p-md-5 p-4" style="background: #873979 !important;">
-                                    <h4 style="color: #fff;">Результат выполнения</h4>
-                                    <div id="result"></div>
-                                </div>
-                            </div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-header">Встречаем обновленный интерфейс</div>
+            <div class="card-body">
+                <p class="card-text">
+                Страница для экстренной разблокировки визита.
+<br>
+                Работает только если по документу создана 1 ККМ операция и в визите нет нескольких документов (расходников)
+</p><p>
+                Также можно использовать для получения ссылки на запись из ккм операции
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-header">История статусов запросов</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 unlockstatus" style="display: none;">
+                            <span class="badge bg-success">Success</span>
+                            <span class="badge bg-danger">Failed</span>
+                            <h5 class="card-title text-white">Ответ анлокера</h5>
+                            <p class="card-text"></p>
+                        </div>
+                        <div class="col-md-12 getinfostatus" style="display: none;">
+                            <span class="badge bg-success">Success</span>
+                            <span class="badge bg-danger">Failed</span>
+                            <h5 class="card-title text-white">Ссылка на запись</h5>
+                            <p class="card-text"></p>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
+    </div>
+</div>
 
-
+<div class="row">
+    <div class="input-group">
+                        <input type="text" class="form-control kkm_input" placeholder="https://yclients.com/kkm/transactions/details/67248544/">
+                        <button class="btn btn-outline-warning" type="button" id="runbtn" onclick="unlock()">
+                            <i id="spinner" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                            Отправить на разблокировку</button>
+                        <button class="btn btn-outline-success" type="button" id="checkbtn" onclick="getinfo()">
+                            <i id="spinner2" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                            Получить запись</button>
+    </div>
+</div>
 
 
 <script src="{{ url_for('static', filename='js/unlocker.js') }}"></script>

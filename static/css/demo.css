@@ -207,3 +207,8 @@ overflow-x:auto;
     background-clip: padding-box;
     min-width: 250px;
 }
+
+.input-group:focus-within {
+box-shadow: none;
+    /* box-shadow: 0 0 0.25rem 0.05rem rgba(105, 108, 255, 0.1); */
+}
