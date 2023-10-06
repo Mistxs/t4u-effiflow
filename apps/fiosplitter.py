@@ -9,6 +9,7 @@ import io
 from config import bearer, db_params
 import pymysql
 
+
 fiosplitter = Blueprint('fiosplitter', __name__)
 
 connection = pymysql.connect(**db_params)

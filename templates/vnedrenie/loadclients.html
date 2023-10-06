@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 class="h2">{{ title }}</h1>
+
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <form id="upload-form" action="/clients/upload" method="POST" enctype="multipart/form-data">
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="inputGroupFile04"  id="formFile" name="file" accept=".xls, .xlsx" required aria-describedby="inputGroupFileAddon04" aria-label="Выберите файл для загрузки">
+                        <button class="btn btn-outline-primary" type="submit" id="inputGroupFileAddon04">Загрузить</button>
+                    </div>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <div class="input-group">
+                        <span class="input-group-text">Данные для входа</span>
+                        <input type="number" id="salon" placeholder="ID филиала" aria-label="ID филиала" class="form-control">
+                        <input type="text" id="login" placeholder="Логин владельца" aria-label="Логин владельца" class="form-control">
+                        <input type="password" id="pass" placeholder="Пароль владельца" aria-label="Пароль владельца" class="form-control">
+                        <button class="btn btn-outline-danger" type="button" id="action" onclick="saveResult()">Сохранить данные</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+    </div>
+			<div class="progress">
+  				<div id="progress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+			</div>
+    <div class="row">
+        <div class="card resultTable" style="display:none">
+            <h5 class="card-header">Результат парсинга загруженного файла</h5>
+            <div id="result" class="overflow table-responsive"></div>
+        </div>
+    </div>
+
+
+<script src="{{ url_for('static', filename='js/loadclients.js') }}"></script>
+
+{% endblock %}

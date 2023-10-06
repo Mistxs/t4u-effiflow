@@ -178,6 +178,12 @@
               <div data-i18n="Basic">Загрузка визитов</div>
             </a>
           </li>
+          <li class="menu-item {% if active_page == 'loadclients' %} active{% endif %}">
+            <a href="{{ url_for('page_engine', page_name='loadclients', route='vnedrenie') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <div data-i18n="Basic">Загрузка клиентов</div>
+            </a>
+          </li>
           <li class="menu-item {% if active_page == 'copytcard' %} active{% endif %}">
                   <a href="{{ url_for('page_engine', page_name='copytcard', route='vnedrenie')}}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-collection"></i>

@@ -1,6 +1,7 @@
+import json
 from datetime import datetime
 from pytz import timezone
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 from apps.fiosplitter import fiosplitter
 from apps.search import tsearch
 from apps.fsr import fsr
@@ -8,6 +9,8 @@ from pageindex import pageindex
 from apps.superbar import superbar
 from apps.loadvisits import loadvisits
 from flask_cors import CORS
+
+from apps.loadclients import loadclients
 
 app = Flask(__name__)
 CORS(app)
@@ -20,6 +23,7 @@ app.register_blueprint(tsearch)
 app.register_blueprint(fsr)
 app.register_blueprint(superbar)
 app.register_blueprint(loadvisits)
+app.register_blueprint(loadclients)
 
 
 ts = datetime.now()
@@ -32,6 +36,7 @@ ts_msk = ts.astimezone(timezone)
 def index():
     title = 'Стартовая'
     return render_template('index.html', title=title, active_page='start', ts=ts_msk)
+
 
 @app.route('/<route>/<page_name>', methods = ['GET'])
 def page_engine(route,page_name):
