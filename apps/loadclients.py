@@ -2,13 +2,15 @@ import datetime
 import json
 import os
 from concurrent.futures import ThreadPoolExecutor
-
+import logging
 
 import requests
 from flask import request, jsonify, Blueprint, current_app, Response
 import xlrd
 from config import bearer, db_params, headers
 from openpyxl import load_workbook
+logging.basicConfig(filename='loadclients.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 
 
@@ -132,12 +134,12 @@ def saveResult(salon, data, headers, usertoken):
             "surname": item.get("surname", "")
         })
         response = requests.request("POST", url, headers=headers, data=payload)
-        print(response.text)
+        logging.info(response.text)
 
     with ThreadPoolExecutor() as executor:
         executor.map(process_item, data)
     end = datetime.datetime.now()
-    print(end-now)
+    logging.info(f"query is running {end-now}")
     return data
 
 
