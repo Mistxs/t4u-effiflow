@@ -4,3 +4,4 @@ config.py
 *.xls
 *.xlsx
 *.xlsx
+*.pyc
