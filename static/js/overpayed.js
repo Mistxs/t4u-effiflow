@@ -1,3 +1,21 @@
+function displayErrorMessage(message) {
+    var errorMessage = $('#error-message');
+    errorMessage.text(message);
+    errorMessage.removeClass('alert-success').addClass('alert-danger').slideDown();
+    setTimeout(function() {
+        errorMessage.slideUp();
+    }, 15000);
+}
+
+function displaySuccessMessage(message) {
+    var errorMessage = $('#error-message');
+    errorMessage.text(message);
+    errorMessage.removeClass('alert-danger').addClass('alert-success').slideDown();
+    setTimeout(function() {
+        errorMessage.slideUp();
+    }, 15000);
+}
+
 function findoverpayed() {
     const tableWrap = document.querySelector('.resultTable');
     tableWrap.classList.remove('slide-in');
@@ -26,46 +44,42 @@ function findoverpayed() {
             'dataset': formData
         })
     })
-    .then(function(response) {
-                // Обработка ответа от сервера
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error("Ошибка при выполнении запроса");
-                }
-            })
+
+    .then(response => response.json())
     .then(data => {
-            // Очищаем контейнер от предыдущих данных
-            resultContainer.innerHTML = '';
-
-            var table1Data = data["success"];
-            var table2Data = data["dataset"];
-
-            // Создаем разметку таблицы
-            var tableHTML = '<table class="table table-sm mt-4 mb-4">';
-            tableHTML += '<thead><tr><th>ID операции</th><th>Дата операции</th><th>Сумма</th><th>Запись</th></tr></thead>';
-            tableHTML += '<tbody>';
-
-            // Заполняем таблицу значениями из dataset
-            for (var i = 0; i < table2Data.length; i++) {
-                var row = table2Data[i];
-                tableHTML += '<tr>';
-                tableHTML += '<td>' + row.id + '</td>';
-                tableHTML += '<td>' + row.date + '</td>';
-                tableHTML += '<td>' + row.amount + '</td>';
-                tableHTML += '<td>' + row.record_id + '</td>';
-                tableHTML += '</tr>';
-            }
-
-            tableHTML += '</tbody></table>';
-
-            // Вставляем HTML-код таблицы в контейнер
-            resultContainer.innerHTML = tableHTML;
+        if (data.status === 'success') {
+            var dataset = data.dataset
+            resultContainer.innerHTML = "";
+            drawTable(dataset)
+        } else if (data.status === 'error') {
+            resultContainer.innerHTML = "";
+            displayErrorMessage(data.text);
+        }
     })
 }
 
 
 
+function drawTable(operations) {
+
+const tableWrap = document.querySelector('.resultTable');
+
+tableWrap.style.display = 'block';
+tableWrap.classList.add('slide-in');
+
+var table = $('<table class="table table-sm mt-4 mb-4">');
+var tbody = $('<tbody>');
+
+var table = '<table class="table table-sm mt-4 mb-4">';
+table += '<thead><tr><th>ID операции</th><th>Дата операции</th><th>Сумма</th><th>Запись</th><th>Расхождение</th></tr></thead>';
+operations.forEach(function(item) {
+            table += '<tr><td>' + item.id + '</td><td>' + item.date + '</td><td>' + item.amount + '</td><td>' + item.record_id + '</td><td>' + item.overpay + '</td></tr>';
+        });
+table += '</table>';
+
+$('#result').empty().append(table);
+
+}
 
 
 $(function() {

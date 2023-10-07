@@ -80,7 +80,7 @@ function saveResult() {
     // Показываем индикатор загрузки
     resultContainer.innerHTML = '<div class="loader"><i class="fa fa-spinner fa-spin"></i> Ждем...</div>';
 
-      return fetch('/clients/saveClients', {
+     return fetch('/clients/saveClients', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

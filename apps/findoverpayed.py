@@ -2,21 +2,25 @@ import requests
 import json
 from config import headers
 
+from tqdm import tqdm
+
 from flask import Blueprint, request, jsonify
 
 overpay = Blueprint('overpayed', __name__)
 
 @overpay.route('/findoverpayed', methods=['POST'])
 def overpayed():
-    dataset = request.json['dataset']
-    data = getTransactions(dataset["salon_id"], dataset["start_date"], dataset["end_date"])
-    return jsonify({'success': True, "dataset" : data})
+    try:
+        dataset = request.json['dataset']
+        data = getTransactions(dataset["salon_id"], dataset["start_date"], dataset["end_date"])
+        return jsonify({'status': 'success', "dataset" : data})
+    except Exception as e:
+        return jsonify({'status': 'error', 'text': f'{e}'})
 
 def checkDocuments(salon, docid):
-    data = []
     url = f"https://api.yclients.com/api/v1/company/{salon}/sale/{docid}"
     response = requests.request("GET", url, headers=headers).json()
-    # print(response)
+
     if response["data"] is not None:
         tt_services = []
         services = response["data"]["state"]["items"]
@@ -25,28 +29,24 @@ def checkDocuments(salon, docid):
         sumItems = 0
         sumPayments = 0
         sumLoyalty = 0
+        overpay = 0
         for item in services:
             sumItems += item["cost_to_pay_total"]
             tt_services.append(item["id"])
 
         for item in payments:
             sumPayments += item["amount"]
-
             if item["sale_item_id"] == None:
-                data.append({
-                    "transaction_id": item["id"],
-                    "document_id": item["document_id"],
-                    "account": item["account_id"],
-                    "amount": item["amount"]
-                })
-                return True
+                overpay = item["amount"]
+                return overpay
 
         for item in loyalty:
-            if item["sale_item_id"] in tt_services and item["type_id"] == 3:
+            if item["sale_item_id"] in tt_services:
                 sumLoyalty += item["amount"]
 
         if sumLoyalty + sumPayments != sumItems:
-            return True
+            overpay = sumLoyalty + sumPayments - sumItems
+            return overpay
 
 def getTransactions(salon, startdate, enddate):
     url = f"https://api.yclients.com/api/v1/transactions/{salon}"
@@ -56,20 +56,25 @@ def getTransactions(salon, startdate, enddate):
         "end_date": enddate,
         'count': 1000
     })
-
     response = requests.request("GET", url, headers=headers, data=payload).json()
-    for item in response["data"]:
-        if checkDocuments(salon,item["document_id"]):
-            # print(item["ID"])
-            transactionLink = f'''<a target=_blank href='https://yclients.com/finances/transactions/edit/{salon}/{item["id"]}'>{item["id"]}</a>'''
-            date = item.get("date","")
-            date_for_link = date.split("T")[-2]
-            date_link = f'<a target=_blank href="https://yclients.com/timetable/{salon}#main_date={date_for_link}&open_modal_by_record_id={item["record_id"]}">{item["record_id"]}</a>'
-            data.append({
-                "id": transactionLink,
-                "date": item["date"],
-                "amount": item["amount"],
-                "record_id": date_link
-            })
+    lenght = len(response["data"])
+
+    if lenght > 999:
+        raise Exception("Вероятность пропуска транзакций, уменьши период")
+    for item in tqdm(response["data"]):
+        if item["expense"]["id"] != 11:
+            if checkDocuments(salon,item["document_id"]):
+                overpay = checkDocuments(salon,item["document_id"])
+                transactionLink = f'''<a target=_blank href='https://yclients.com/finances/transactions/edit/{salon}/{item["id"]}'>{item["id"]}</a>'''
+                date = item.get("date","")
+                date_for_link = date.split("T")[-2]
+                date_link = f'<a target=_blank href="https://yclients.com/timetable/{salon}#main_date={date_for_link}&open_modal_by_record_id={item["record_id"]}">{item["record_id"]}</a>'
+                data.append({
+                    "id": transactionLink,
+                    "date": item["date"],
+                    "amount": item["amount"],
+                    "record_id": date_link,
+                    "overpay": overpay
+                })
 
     return data
