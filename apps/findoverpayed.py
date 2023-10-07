@@ -2,7 +2,7 @@ import requests
 import json
 from config import headers
 
-from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor
 
 from flask import Blueprint, request, jsonify
 
@@ -61,7 +61,9 @@ def getTransactions(salon, startdate, enddate):
 
     if lenght > 999:
         raise Exception("Вероятность пропуска транзакций, уменьши период")
-    for item in tqdm(response["data"]):
+
+    transactions = response["data"]
+    def process_item(item):
         if item["expense"]["id"] != 11:
             if checkDocuments(salon,item["document_id"]):
                 overpay = checkDocuments(salon,item["document_id"])
@@ -76,5 +78,8 @@ def getTransactions(salon, startdate, enddate):
                     "record_id": date_link,
                     "overpay": overpay
                 })
+
+    with ThreadPoolExecutor() as executor:
+        executor.map(process_item, transactions)
 
     return data
