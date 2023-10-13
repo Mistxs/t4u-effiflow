@@ -14,7 +14,7 @@ knowledge_bp = Blueprint('knowledge', __name__, url_prefix='/knowledge')
 def knowledge_page(page_name):
     blocks = notion_integration()
     title = pageindex[f"{page_name}"]
-    return render_template(f'knowledge/{page_name}.html', title=title, active_page=page_name, blocks=blocks)
+    return render_template(f'knowledge/{page_name}.html', title=title, active_page=page_name,  route='knowledge',  blocks=blocks)
 
 def notion_integration():
     headers = {
