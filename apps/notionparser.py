@@ -1,20 +1,24 @@
+from datetime import datetime
+
 from flask import render_template, Blueprint
 import requests
 import html
 from pageindex import pageindex
 from config import NOTION_TOKEN, NOTION_PAGE_ID
 
-
+from pytz import timezone
 
 knowledge_bp = Blueprint('knowledge', __name__, url_prefix='/knowledge')
 
-
+ts = datetime.now()
+timezone = timezone('Etc/GMT-3')
+ts_msk = ts.astimezone(timezone)
 
 @knowledge_bp.route('/<page_name>', methods=['GET'])
 def knowledge_page(page_name):
     blocks = notion_integration()
     title = pageindex[f"{page_name}"]
-    return render_template(f'knowledge/{page_name}.html', title=title, active_page=page_name,  route='knowledge',  blocks=blocks)
+    return render_template(f'knowledge/{page_name}.html', title=title, active_page=page_name,  route='knowledge',  blocks=blocks, ts=ts_msk)
 
 def notion_integration():
     headers = {
