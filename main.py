@@ -11,6 +11,7 @@ from apps.superbar import superbar
 from apps.loadvisits import loadvisits
 from apps.superloyal import superloyal
 from apps.findoverpayed import overpay
+from apps.notionparser import knowledge_bp
 from flask_cors import CORS
 
 from apps.loadclients import loadclients
@@ -30,6 +31,8 @@ app.register_blueprint(loadvisits)
 app.register_blueprint(loadclients)
 app.register_blueprint(superloyal)
 app.register_blueprint(overpay)
+app.register_blueprint(knowledge_bp)
+
 
 
 ts = datetime.now()
@@ -47,7 +50,7 @@ def index():
 @app.route('/<route>/<page_name>', methods = ['GET'])
 def page_engine(route,page_name):
     title = pageindex[f"{page_name}"]
-    return render_template(f'/{route}/{page_name}.html', title=title, active_page=page_name, route=route, ts=ts)
+    return render_template(f'/{route}/{page_name}.html', title=title, active_page=page_name, route=route, ts=ts_msk)
 
 
 if __name__ == '__main__':
