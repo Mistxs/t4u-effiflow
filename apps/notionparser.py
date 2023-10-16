@@ -3,8 +3,8 @@ from datetime import datetime
 from flask import render_template, Blueprint
 import requests
 import html
-from pageindex import pageindex
-from config import NOTION_TOKEN, NOTION_PAGE_ID
+from pageindex import pageindex, notionindex
+from config import NOTION_TOKEN
 
 from pytz import timezone
 
@@ -16,11 +16,12 @@ ts_msk = ts.astimezone(timezone)
 
 @knowledge_bp.route('/<page_name>', methods=['GET'])
 def knowledge_page(page_name):
-    blocks = notion_integration()
+    notion_page = notionindex[f"{page_name}"]
+    blocks = notion_integration(notion_page)
     title = pageindex[f"{page_name}"]
     return render_template(f'knowledge/{page_name}.html', title=title, active_page=page_name,  route='knowledge',  blocks=blocks, ts=ts_msk)
 
-def notion_integration():
+def notion_integration(NOTION_PAGE_ID):
     headers = {
         'Authorization': f'Bearer {NOTION_TOKEN}',
         'Content-Type': 'application/json',
@@ -37,6 +38,9 @@ def notion_integration():
             if block_type == 'paragraph':
                 content = parse_paragraph(block[block_type]['text'])
                 blocks.append({'type': 'paragraph', 'content': content})
+            elif block_type == 'code':
+                content = block['code']['text'][0]['text']['content']
+                blocks.append({'type': 'code', 'content': content})
             elif block_type.startswith('heading'):
                 text_list = block[block_type]['text']
                 content = '\n'.join([text.get('plain_text', '') for text in text_list])

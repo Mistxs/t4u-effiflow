@@ -16,3 +16,11 @@ pageindex = {
 "loadvisits" : "Загрузка визитов",
 "loadclients" : "Загрузка клиентов"
 }
+
+notionindex = {
+"getanyid" : 'ecdc160f6d99428baba227f2cfe0155c',
+"kibana" : 'a7f74c8fd4174e4fb123a2f40eaef340',
+"kkm" : 'a50c00833b2747e69a19a81062b400f4',
+"sql" : '764f3ad43b094d77b0ff2f5af11c0dfc',
+"faq": 'af2358d12ed742ecb58775b732de4578'
+}
