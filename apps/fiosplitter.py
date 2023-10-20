@@ -8,6 +8,8 @@ from russiannames.parser import NamesParser
 from openpyxl import Workbook
 import io
 from config import bearer, db_params
+from concurrent.futures import ThreadPoolExecutor
+
 import pymysql
 
 
@@ -224,6 +226,8 @@ def saveClients():
 
 def saveResult(salon, data, headers, usertoken):
     headers['Authorization'] = f'{bearer}, {usertoken}'
+    now = datetime.datetime.now()
+
     def process_item(item):
         url = f'https://api.yclients.com/api/v1/client/{salon}/{item["id"]}'
         payload = json.dumps({
@@ -235,11 +239,16 @@ def saveResult(salon, data, headers, usertoken):
             "birth_date": item['birthday']
 
         })
+
         response = requests.request("PUT", url, headers=headers, data=payload)
         print(response.text)
-
+        
     with ThreadPoolExecutor() as executor:
         executor.map(process_item, data)
+        
+    end = datetime.datetime.now()
+    print(f"query is running {end-now}")
+    return data
 
 
 @fiosplitter.route('/getReport')
