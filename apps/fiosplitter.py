@@ -1,4 +1,5 @@
 import datetime
+from concurrent.futures import ThreadPoolExecutor
 
 from flask import jsonify, request, Blueprint, send_file, make_response
 import requests
@@ -25,7 +26,12 @@ def create_table():
     conn = pymysql.connect(**db_params)
     cursor = conn.cursor()
     cursor.execute(
-        'CREATE TABLE IF NOT EXISTS fiosplitter (id INT AUTO_INCREMENT PRIMARY KEY, salon_id INT, data TEXT)')
+        'CREATE TABLE IF NOT EXISTS fiosplitter (id INT AUTO_INCREMENT PRIMARY KEY, salon_id INT, data TEXT);'
+    )
+    cursor.execute(
+        'CREATE TABLE IF NOT EXISTS clients(id int, salon_id int, fullname varchar(255), phone varchar(100), name varchar(255), surname varchar(255), patronymic varchar(255), birthday varchar(255), query_ts datetime);'
+    )
+
     conn.commit()
     conn.close()
 
@@ -218,7 +224,7 @@ def saveClients():
 
 def saveResult(salon, data, headers, usertoken):
     headers['Authorization'] = f'{bearer}, {usertoken}'
-    for item in data:
+    def process_item(item):
         url = f'https://api.yclients.com/api/v1/client/{salon}/{item["id"]}'
         payload = json.dumps({
             "id": item['id'],
@@ -229,9 +235,11 @@ def saveResult(salon, data, headers, usertoken):
             "birth_date": item['birthday']
 
         })
-        print(url)
         response = requests.request("PUT", url, headers=headers, data=payload)
         print(response.text)
+
+    with ThreadPoolExecutor() as executor:
+        executor.map(process_item, data)
 
 
 @fiosplitter.route('/getReport')
