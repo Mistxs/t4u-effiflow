@@ -5,15 +5,15 @@
  * @license MIT
  */
 .rd-container {
-  display: none;
-  background-color: rgb(255 255 255 / 60%);
-  padding: 20px;
-  border-radius: 0.5em;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: #000;
-  text-align: center;
-  box-shadow: 0 15px 30px 0 rgba(0,0,0,.2);
+    display: none;
+    background-color: rgb(40 28 104 / 21%);
+    padding: 20px;
+    border-radius: 0.5em;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #8080b0;
+    text-align: center;
+    box-shadow: 0 15px 30px 0 rgba(0,0,0,.2);
 
 }
 .rd-container-attachment {
