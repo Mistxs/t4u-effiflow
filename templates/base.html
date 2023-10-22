@@ -39,6 +39,9 @@
                 </svg>
               </span>
             <span class="app-brand-text menu-text fw-bolder ms-2">EffiFlow</span>
+            <button onclick="toggleTheme()" id="themeBtn">
+                <span id="themeIcon" class="sun"></span>
+            </button>
           </a>
 
           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large d-block d-xl-none">
@@ -49,7 +52,6 @@
         <div class="menu-inner-shadow"></div>
 
         <ul class="menu-inner py-1">
-          <button onclick="toggleTheme()">Изменить тему</button>
           <!-- Dashboard -->
           <li class="menu-item {% if active_page == 'start' %} active{% endif %}">
             <a href="/" class="menu-link">
@@ -341,6 +343,8 @@
 		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
         <script src="{{ url_for('static', filename='js/searchAW.js') }}"></script>
     <script>
+
+
         // Проверяем, есть ли значение в Local Storage для сохраненной темы
         if (localStorage.getItem('theme') === 'dark') {
             document.getElementById('core-style').setAttribute('href', '{{ url_for('static', filename='css/core-dark.css') }}');
@@ -349,6 +353,18 @@
 
         // Функция для смены темы
         function toggleTheme() {
+
+            var themeBtn = document.getElementById('themeBtn');
+            var themeIcon = document.getElementById('themeIcon');
+
+            if (themeBtn.classList.contains('dark-theme')) {
+              themeBtn.classList.remove('dark-theme');
+              themeIcon.style.backgroundImage = '/static/css/moon.svg';
+            } else {
+              themeBtn.classList.add('dark-theme');
+              themeIcon.style.backgroundImage = '/static/css/sun.svg';
+            }
+
             var themeStyle = document.getElementById('theme-style');
             var coreStyle = document.getElementById('core-style');
 
