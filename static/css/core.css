@@ -2636,8 +2636,8 @@ textarea.form-control-lg {
   }
 }
 .form-floating > .form-control {
-  padding: 1rem 0.875rem;
-      padding-left: 60px;
+
+padding-left: 60px;
 }
 .form-floating > .form-control::-moz-placeholder {
   color: transparent;
