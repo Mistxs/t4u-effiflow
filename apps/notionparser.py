@@ -69,6 +69,7 @@ def notion_integration(NOTION_PAGE_ID):
                     if content:
                         blocks.append({'type': 'callout', 'content': content})
         # Добавьте обработку других типов блоков Notion по мере необходимости.
+    print(blocks)
     return blocks
 
 def parse_paragraph(text_list):

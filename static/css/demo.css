@@ -248,12 +248,9 @@ body .notion {
   /* Стили для блока кода */
     .notion       pre {
             position: relative;
-            padding: 1em;
-            background: #f6f8fa;
-            border: 1px solid #e1e4e8;
             border-radius: 6px;
             margin-bottom: 1.5em;
-            overflow-x: auto;
+            
         }
 
       .notion     code {
