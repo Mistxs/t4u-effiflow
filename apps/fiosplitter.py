@@ -1,5 +1,4 @@
 import datetime
-from concurrent.futures import ThreadPoolExecutor
 
 from flask import jsonify, request, Blueprint, send_file, make_response
 import requests

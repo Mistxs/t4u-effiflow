@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 from bs4 import BeautifulSoup
 import requests
 
-from config import auth_cookie, headers, testerhead
+from config import auth_cookie, headers, testerhead, secretkey
 
 unlocker = Blueprint('unlocker', __name__)
 
@@ -57,7 +57,7 @@ def getinfo():
 
 def getdata(url):
     try:
-        response = requests.get(url, cookies={"Cookie": auth_cookie})
+        response = requests.get(url+secretkey)
         if response.status_code == 200:
             html_content = response.text
             soup = BeautifulSoup(html_content, "html.parser")
@@ -106,7 +106,6 @@ def extract_record_id(record_link):
 
 
 def send_post_request(rec_id):
-    url = f'https://yclients.com/tester/unlock_record/{rec_id}'
-    headers = testerhead
-    response = requests.post(url, headers=headers)
+    url = f'https://yclients.com/tester/unlock_record/{rec_id}'+secretkey
+    response = requests.post(url)
     return response
