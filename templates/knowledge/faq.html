@@ -9,28 +9,41 @@
             <div class="d-flex align-items-end row">
               <div class="col-sm-12">
                   <div class="card-body">
-                    <h5 class="card-title text-primary">Как получить ID сущности в YCLIENTS</h5>
-                    {% for block in blocks %}
-        {% if block.type == 'paragraph' %}
-            <p>{{ block.content | safe }}</p>
-        {% elif block.type.startswith('heading') %}
-            <h{{ block.type[-1] }}>{{ block.content }}</h{{ block.type[-1] }}>
-        {% elif block.type == 'to_do' %}
-            <input type="checkbox" {% if block.checked %} checked {% endif %}> {{ block.content }}<br>
-        {% elif block.type in ['bulleted_list_item', 'numbered_list_item'] %}
-            <li>{{ block.content }}</li>
-        {% elif block.type == 'image' %}
-            <img src="{{ block.source }}" alt="Notion Image">
-        {% elif block.type == 'callout' %}
-            <div class="callout">
-                {{ block.content }}
-            </div>
+    <h5 class="card-title text-primary">Нетипичные кейсы</h5>
+                      <p class="card-text">
+              Собираем кейсы вместе! Если столкнулись с чем-то неочевидным, или не логичным, пишите Филиппу Щигарцову, Веронике Худяковой или мне (Филиппову Анатолию) - мы добавим его на сайт
+</p >
+   <div class="nav-align-top mb-4">
+    <ul class="nav nav-pills mb-3" role="tablist">
+        {% for block in blocks %}
+            {% if block.type.startswith('heading') %}
+               <li class="nav-item">
+                    <button type="button" class="nav-link {% if loop.first %}active{% endif %}" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-{{ loop.index }}"
+                        aria-controls="navs-pills-top-{{ loop.index }}" aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
+                        {{ block.content }}
+                    </button>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 
-        {% else %}
-            {{ block.content }}
-        {% endif %}
-    {% endfor %}
-                  </div>
+    <div class="tab-content">
+        {% for block in blocks %}
+
+            {% if block.type == 'paragraph' %}
+                    <div class="tab-pane fade {% if loop.first %}active show{% endif %}" id="navs-pills-top-{{ loop.index-1 }}" role="tabpanel">
+                      {{ block.content }}
+                    </div>
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</div>
+
               </div>
             </div>
           </div>
