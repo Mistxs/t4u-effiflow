@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-
-
-        <div class="col-lg-12 mb-4 order-0 notion">
+<div class="col-lg-12 mb-4 order-0 notion">
           <div class="card">
             <div class="d-flex align-items-end row">
               <div class="col-sm-12">
@@ -24,18 +21,39 @@
         {% endfor %}
     </ul>
 
-    <div class="tab-content">
-        {% for block in blocks %}
-
-            {% if block.type == 'code' %}
-                    <div class="tab-pane fade {% if loop.first %}active show{% endif %}" id="navs-pills-top-{{ loop.index-1 }}" role="tabpanel">
-                        <pre><code class="sql">{{ block.content }}</code></pre>
-                    </div>
-            {% endif %}
-
-        {% endfor %}
-
-    </div>
+<div class="tab-content">
+    {% for block in blocks %}
+        {% if block.type == 'combined' %}
+                <div class="tab-pane fade {% if loop.first %}active show{% endif %}" id="navs-pills-top-{{ loop.index-1 }}" role="tabpanel">
+                    {% for item in block.content %}
+                        {% if item.type == 'paragraph' %}
+                               <p>{{ item.content | safe }}</p>
+                        {% elif item.type.startswith('heading') %}
+                                <h{{ item.type[-1] }}>{{ item.content }}</h{{ item.type[-1] }}>
+                        {% elif item.type == 'to_do' %}
+                                <input type="checkbox" {% if item.checked %} checked {% endif %}> {{ item.content }}<br>
+                        {% elif item.type in ['bulleted_list_item', 'numbered_list_item'] %}
+                                <li>{{ item.content }}</li>
+                        {% elif item.type == 'image' %}
+                                <img src="{{ item.source }}" alt="Notion Image">
+                        {% elif item.type == 'callout' %}
+                                <div class="callout">
+                                    {{ item.content }}
+                                </div>
+                        {% elif item.type == 'code' %}
+                              <pre><code class="sql">{{ item.content }}</code></pre>
+                        {% else %}
+                            {{ item.content }}
+                        {% endif %}
+                    {% endfor %}
+            </div>
+        {% elif block.type == 'code' %}
+                            <div class="tab-pane fade {% if loop.first %}active show{% endif %}" id="navs-pills-top-{{ loop.index-1 }}" role="tabpanel">
+                              <pre><code class="sql">{{ item.content }}</code></pre>
+                            </div>
+        {% endif %}
+    {% endfor %}
+</div>
 
 </div>
 

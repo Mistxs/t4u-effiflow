@@ -32,6 +32,7 @@ def notion_integration(NOTION_PAGE_ID):
     data = response.json()
 
     blocks = []
+
     for block in data['results']:
         block_type = block.get('type', None)
         if block_type:
@@ -70,7 +71,27 @@ def notion_integration(NOTION_PAGE_ID):
                         blocks.append({'type': 'callout', 'content': content})
         # Добавьте обработку других типов блоков Notion по мере необходимости.
     print(blocks)
-    return blocks
+
+    combined_blocks = []
+    current_block = None
+    for item in blocks:
+        if item['type'] == 'heading_3':
+            if current_block is not None:
+                combined_blocks.append(current_block)
+            current_block = {'type': 'combined', 'content': []}
+            combined_blocks.append(item)
+        else:
+            if current_block is not None:
+                current_block['content'].append(item)
+    if current_block is not None:
+        combined_blocks.append(current_block)
+
+    print(combined_blocks)
+
+    if len(combined_blocks) > 0:
+        return combined_blocks
+    else:
+        return blocks
 
 def parse_paragraph(text_list):
     content = ""

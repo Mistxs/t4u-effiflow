@@ -1,13 +1,20 @@
 #вспомогательный модуль для обработки тикетов из браузера (серверная часть расширения)
 
 
-from flask import Blueprint, request, jsonify
 
+from flask import Blueprint, request, jsonify
+from slack_sdk import WebClient
+
+from apps.search import yasearch, yacount
+from config import user_slack_token
+
+import json
 import datetime
 import requests
 import spacy
 from bs4 import BeautifulSoup
 import re
+import codecs
 
 superbar = Blueprint('superbar', __name__)
 def getTicketInfo(ticket):
@@ -93,6 +100,21 @@ def magicSearch(keywords):
             opentask.append(item)
     return opentask
 
+def search_in_slack(query):
+    client = WebClient(token=user_slack_token)
+    response = client.search_messages(query=query, count=100, sort='score')
+    search_results = []
+    print(response)
+    for message in response["messages"]["matches"]:
+        result = {
+            "text": message["text"],
+            "link": message["permalink"],
+            "user": message["user"],
+            "channel": message["channel"]["name"],
+            "timestamp": message["ts"],
+        }
+        search_results.append(result)
+    return search_results
 
 @superbar.route('/process_ticket', methods=['POST'])
 def process_ticket():
@@ -105,11 +127,18 @@ def process_ticket():
     # for task in tasks:
     #     print(task["summary"])
 
-
-
     response = {
         "clearticket": clearText,
         "preProcessing": keySearch
     }
-
     return jsonify(response)
+
+@superbar.route('/supersearch', methods=['POST'])
+def supSearch():
+    text = request.args.get('text')
+    yandexdata = yasearch(text)
+    yandexcount = yacount(text)
+    slackdata = search_in_slack(text)
+    return jsonify({'yandexdata': yandexdata, 'count': yandexcount, 'statuses': list(set([item['status'] for item in yandexdata])), 'slackdata': slackdata})
+
+
