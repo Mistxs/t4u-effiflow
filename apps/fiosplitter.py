@@ -189,6 +189,22 @@ def parseclients(clients):
             item["error"] = True
     return clients
 
+# имя оставляет в имени, все остальное - в фамилию
+# def simpleSplit(clients):
+#     parser = NamesParser()
+#     for item in clients:
+#         parsename = parser.parse(item["name"])
+#         if parsename["parsed"]:
+#             item["name"] = parsename.get("fn", "")
+#             item["surname"] = parsename.get("sn", "") + " " + parsename.get("mn", "") + item["surname"]
+#         else:
+#             name_parts = item["name"].split()
+#             if len(name_parts) > 0:
+#                 item["name"] = name_parts[0]
+#                 item["surname"] = " ".join(name_parts[1:]) + item["surname"]
+#             item["error"] = True
+#     return clients
+
 
 @fiosplitter.route('/getError', methods=['GET'])
 def getError():
