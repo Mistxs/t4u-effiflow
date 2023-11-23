@@ -1,18 +1,11 @@
 import requests
 from tqdm import tqdm
+from config import headers
 import urllib.parse
 
 input_salon = 758849
 output_salon = 867328
 
-
-
-headers = {
-    'Accept': 'application/vnd.yclients.v2+json',
-    'Content-Type': 'application/json',
-    'Authorization': 'rj257pguzmdk9fgaz8cr, e69793634796c00b57cb4bfd34f361d8',
-    'Cookie': '__cf_bm=DpSJxFcP5x49BlwSV8fx7HA3Gk3yq2.xbqLx0eCWc0o-1693478558-0-AfLG/u6lL3HhMTKdAvxgnJG8Sca9wA6nbu7z783gyKV7VssaycYBpBHbKy8Mrz2prG2Oo3uNLEcNR10AHblnzH0=; _cfuvid=15nbJ8Gw2X16Drnvx8LFVcGFMrq2IIZ4Ib2TPJ3Hv.M-1693478558393-0-604800000; app_service_group=9; auth=hpa9rgcnut92h45ess4h7r42vcaf106r9p9rdtv2d06p70jcbhqrdpeqr3e7rmc7; ycl_language_id=1'
-}
 
 
 def savecard(data):
