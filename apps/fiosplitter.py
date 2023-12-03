@@ -48,7 +48,7 @@ def safeClients(salon, data):
 
         for item in data:
             query = """
-                       INSERT INTO clients (id, salon_id, phone, name, surname, patronymic, birthday, query_ts)
+                       INSERT INTO clients (yc_id, salon_id, phone, name, surname, patronymic, birthday, query_ts)
                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                    """
             clid = item.get("id")
@@ -69,6 +69,7 @@ def safeClients(salon, data):
         print("Data successfully saved in the 'clients' table.")
     except Exception as e:
         print(f"Error: {e}")
+
 
 clientsdata = []
 newdata = []
@@ -205,20 +206,20 @@ def parseclients(clients):
 #             item["error"] = True
 #     return clients
 
-
-@fiosplitter.route('/getError', methods=['GET'])
-def getError():
-    try:
-        global newdata
-        global errors
-        errors = []
-        for item in newdata:
-            if 'error' in item:
-                errors.append(item)
-        return jsonify({'status': 'success', 'text': errors})
-    except Exception as e:
-        return jsonify({'status': 'error', 'text': f'{e}'})
-
+#
+# @fiosplitter.route('/getError', methods=['GET'])
+# def getError():
+#     try:
+#         global newdata
+#         global errors
+#         errors = []
+#         for item in newdata:
+#             if 'error' in item:
+#                 errors.append(item)
+#         return jsonify({'status': 'success', 'text': errors})
+#     except Exception as e:
+#         return jsonify({'status': 'error', 'text': f'{e}'})
+#
 
 @fiosplitter.route('/saveClients', methods=['POST'])
 def saveClients():
@@ -265,40 +266,52 @@ def saveResult(salon, data, headers, usertoken):
     print(f"query is running {end-now}")
     return data
 
-
 @fiosplitter.route('/getReport')
 def get_report():
-    global errors
 
-    # Создаем новую workbook и worksheet в Excel
-    workbook = Workbook()
-    worksheet = workbook.active
+    try:
+        global newdata
+        global errors
+        errors = []
+        for item in newdata:
+            if 'error' in item:
+                errors.append(item)
 
-    # Записываем заголовки
-    headers = ['id', 'Телефон', 'Имя', 'Отчество', 'Фамилия']
-    for col, header in enumerate(headers, start=1):
-        worksheet.cell(row=1, column=col, value=header)
+        # Создаем новую workbook и worksheet в Excel
+        workbook = Workbook()
+        worksheet = workbook.active
 
-    # Записываем данные
-    for row, item in enumerate(errors, start=2):
-        worksheet.cell(row=row, column=1, value=item['id'])
-        worksheet.cell(row=row, column=2, value=item['phone'])
-        worksheet.cell(row=row, column=3, value=item['name'])
-        worksheet.cell(row=row, column=4, value=item['patronymic'])
-        worksheet.cell(row=row, column=5, value=item['surname'])
+        # Записываем заголовки
+        headers = ['id', 'Телефон', 'Имя', 'Отчество', 'Фамилия']
+        for col, header in enumerate(headers, start=1):
+            worksheet.cell(row=1, column=col, value=header)
 
-    # Создаем временный буфер для файла
-    output = io.BytesIO()
+        # Записываем данные
+        for row, item in enumerate(errors, start=2):
+            worksheet.cell(row=row, column=1, value=item['id'])
+            worksheet.cell(row=row, column=2, value=item['phone'])
+            worksheet.cell(row=row, column=3, value=item['name'])
+            worksheet.cell(row=row, column=4, value=item['patronymic'])
+            worksheet.cell(row=row, column=5, value=item['surname'])
 
-    # Сохраняем workbook во временный буфер
-    workbook.save(output)
+        # Создаем временный буфер для файла
+        output = io.BytesIO()
 
-    # Закрываем workbook
-    workbook.close()
+        # Сохраняем workbook во временный буфер
+        workbook.save(output)
 
-    # Подготавливаем response с файлом
-    response = make_response(output.getvalue())
-    response.headers['Content-Type'] = 'application/vnd.ms-excel'
-    response.headers['Content-Disposition'] = 'attachment; filename=report.xlsx'
+        # Закрываем workbook
+        workbook.close()
 
-    return response
+        # Подготавливаем response с файлом
+        response = make_response(output.getvalue())
+        response.headers['Content-Type'] = 'application/vnd.ms-excel'
+        response.headers['Content-Disposition'] = 'attachment; filename=report.xlsx'
+
+        return response
+
+
+
+    except Exception as e:
+        return jsonify({'status': 'error', 'text': f'{e}'})
+

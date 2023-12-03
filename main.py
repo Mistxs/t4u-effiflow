@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from pytz import timezone
 from flask import Flask, render_template, Response
@@ -10,8 +9,10 @@ from pageindex import pageindex
 from apps.superbar import superbar
 from apps.loadvisits import loadvisits
 from apps.superloyal import superloyal
+from apps.daydetails import dayrecords
 from apps.findoverpayed import overpay
 from apps.notionparser import knowledge_bp
+from apps.tccopy import tccopy
 from flask_cors import CORS
 
 from apps.loadclients import loadclients
@@ -30,8 +31,10 @@ app.register_blueprint(superbar)
 app.register_blueprint(loadvisits)
 app.register_blueprint(loadclients)
 app.register_blueprint(superloyal)
+app.register_blueprint(dayrecords)
 app.register_blueprint(overpay)
 app.register_blueprint(knowledge_bp)
+app.register_blueprint(tccopy)
 
 
 

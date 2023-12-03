@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from slack_sdk import WebClient
-from config import headers, slack_token, auth_cookie
+from config import headers, slack_token, secretkey
 
 fsr = Blueprint('fsr', __name__)
 
@@ -25,7 +25,7 @@ def getdata(url):
 
     # Отправляем GET-запрос с передачей Cookie
     global document_id
-    response = requests.get(url, cookies={"Cookie": auth_cookie})
+    response = requests.get(url+secretkey)
     kkm_response = {}
     # Проверяем код состояния ответа (200 означает успешный запрос)
     if response.status_code == 200:

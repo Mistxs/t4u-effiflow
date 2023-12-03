@@ -1,4 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 class="h2">{{ title }}</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-header">Копирование тех карт между филиалами</div>
+            <div class="card-body">
+                <p class="card-text">
+               Важно! Товары, а также склады должны быть идентичными в обоих филиалах.
+                    Сохранение возможно с ошибками, или завершится неполностью, в будущем добавятся информационные окна и подсказки
+
+</p >
+                <p>
+                    Самая предварительная версия, без обработчиков ошибок, возможности отката изменений и досохранения нужных товаров (складов)
+                                    </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+    <div class="input-group">
+                        <input type="number" class="col-md-3 col-12 form-control" id="salon_from" placeholder="Откуда копируем"  autocomplete="off"  required>
+                        <input type="number" id="salon_to" name="salon" class="form-control" required placeholder="Куда копируем">
+                        <button class="btn btn-outline-warning" type="button" id="checkbtn" onclick="startCopy()">
+                            <i id="spinner" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                            Начать копирование</button>
+    </div>
+</div>
+
+<div class="row p-4 resultTable">
+        <div id="result" class="card overflow table-responsive"></div>
+        </div>
+</div>
+
+
+
+
+
+<script src="{{ url_for('static', filename='js/copytcard.js') }}"></script>
 {% endblock %}

@@ -315,3 +315,7 @@ body .notion {
   transform-origin: 0 0;
   transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
+
+.fa-spinner {
+padding-right: 10px;
+}

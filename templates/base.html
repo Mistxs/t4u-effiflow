@@ -40,8 +40,10 @@
             var coreStyle = document.getElementById('core-style');
 
             if (themeStyle.getAttribute('href') === '{{ url_for('static', filename='css/theme-default.css') }}') {
-                themeStyle.setAttribute('href', '{{ url_for('static', filename='css/theme-default-dark.css') }}');
+
                 coreStyle.setAttribute('href', '{{ url_for('static', filename='css/core-dark.css') }}');
+                themeStyle.setAttribute('href', '{{ url_for('static', filename='css/theme-default-dark.css') }}');
+
                 localStorage.setItem('theme', 'dark');
 
             } else {
@@ -206,12 +208,12 @@
               <div data-i18n="Basic">Сплиттер ФИО</div>
             </a>
           </li>
-          <li class="menu-item {% if active_page == 'doubleslots' %} active{% endif %}">
-           <a href="{{ url_for('page_engine', page_name='doubleslots', route='2ndline') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-collection"></i>
-              <div data-i18n="Basic">Пересохранение расписания</div>
-            </a>
-          </li>
+<!--          <li class="menu-item {% if active_page == 'doubleslots' %} active{% endif %}">-->
+<!--           <a href="{{ url_for('page_engine', page_name='doubleslots', route='2ndline') }}" class="menu-link">-->
+<!--              <i class="menu-icon tf-icons bx bx-collection"></i>-->
+<!--              <div data-i18n="Basic">Пересохранение расписания</div>-->
+<!--            </a>-->
+<!--          </li>-->
           <li class="menu-item {% if active_page == 'search' %} active{% endif %}">
             <a href="{{ url_for('page_engine', page_name='search', route='2ndline') }}" class="menu-link">
               <i class="menu-icon tf-icons bx bx-collection"></i>
@@ -295,7 +297,7 @@
             <footer class="content-footer footer bg-footer-theme">
               <div class="d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                 <div class="mb-2 mb-md-0">
-                  <pre>core ver.: 0.2.8.11 | ui ver.: 0.1 </pre>
+                  <pre>core ver.: 0.4 | ui ver.: 0.4 </pre>
 
                   <pre>build_ts: {{ ts }}</pre>
 

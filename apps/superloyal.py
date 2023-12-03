@@ -261,13 +261,18 @@ def convert_date(date_string):
 
 def getvisit(id):
     url = f"https://api.yclients.com/api/v1/visits/{id}"
-    response = requests.request("GET", url, headers=headers).json()
-    date_string = response["data"]["datetime"]
-    datetime_obj = datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%S%z")
-    date = datetime_obj.strftime("%Y-%m-%d %H:%M")
-    record_id = response["data"]["records"][0]["id"]
-    salon_id = response["data"]["records"][0]["company_id"]
-    return date, record_id, salon_id
+    if id == 0:
+        return " - - - ", None, None
+    else:
+        response = requests.request("GET", url, headers=headers).json()
+        date_string = response["data"]["datetime"]
+        datetime_obj = datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%S%z")
+        date = datetime_obj.strftime("%Y-%m-%d %H:%M")
+        record_id = response["data"]["records"][0]["id"]
+        salon_id = response["data"]["records"][0]["company_id"]
+        return date, record_id, salon_id
+
+
 
 
 def getLoyaltyTransaction(data):
@@ -282,6 +287,7 @@ def getLoyaltyTransaction(data):
         response = requests.request("GET", url, headers=headers, data=payload).json()
         for transaction in response["data"]:
             if int(item["transaction_id"]) == int(transaction['id']):
+                print(transaction)
                 item["visit_id"] = transaction['visit_id']
                 date, record, salon = getvisit(transaction['visit_id'])
                 item["program_id"] = transaction['program_id']

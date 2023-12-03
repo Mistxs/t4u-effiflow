@@ -8,71 +8,68 @@
             <div class="row">
 
 
-            <div class="col-md-3">
-                <div class="card bg-secondary text-white mb-4">
+            <div >
+                <div class="card bg-dark text-white mb-4">
                 <div class="card-header">Настройки</div>
                 <div class="card-body">
-                    <div class="form-group mb-2">
-                    <label class="label" for="salon">ID филиала</label>
-                                                    <input type="number" class="form-control" name="salon" id="salon" placeholder="4564">
+                        <div class="input-group">
+                        <input type="number" class="col-md-3 col-12 form-control" id="salon" placeholder="ID филиала"  autocomplete="off"  required>
+                        <input type="text" id="login" name="salon" class="form-control" required placeholder="Логин владельца">
+                        <input type="password" id="pass" name="salon" class="form-control" required placeholder="Пароль владельца">
+                        </div>
 
-                    <label class="label" for="salon">Логин владельца</label>
-                                                    <input type="text" class="form-control" name="salon" id="login" placeholder="a.panov@ycients.tech">
-
-                    <label class="label" for="salon">Пароль владельца</label>
-                                                    <input type="password" class="form-control" name="salon" id="pass" placeholder="apanov">
-                    </div>
 
                     <div class="settings">
-                        <div class="form-check form-switch mb-2">
-                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch0">
-                            <label class="form-check-label" for="flexSwitch0">Смарт-режим</label>
-                        </div>
-                        <div class="form-check form-switch mb-2">
-                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch1">
-                            <label class="form-check-label" for="flexSwitch1">Ошибки по завершению</label>
-                        </div>
-                        <div class="form-check form-switch mb-2">
-                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch2">
-                            <label class="form-check-label" for="flexSwitch2">Отправить push в Slack по завершению</label>
-                        </div>
-                        <div class="form-check form-switch mb-2">
-                            <input type="checkbox" name="fios-set" class="form-check-input" value="smart" id="flexSwitch3">
-                            <label class="form-check-label" for="flexSwitch3">Режим восстановления</label>
-                        </div>
+<!--                        <div class="form-check form-switch mb-2">-->
+<!--                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch0">-->
+<!--                            <label class="form-check-label" for="flexSwitch0">Смарт-режим</label>-->
+<!--                        </div>-->
+<!--                        <div class="form-check form-switch mb-2">-->
+<!--                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch1">-->
+<!--                            <label class="form-check-label" for="flexSwitch1">Ошибки по завершению</label>-->
+<!--                        </div>-->
+<!--                        <div class="form-check form-switch mb-2">-->
+<!--                            <input type="checkbox" checked name="fios-set" class="form-check-input" value="smart" id="flexSwitch2">-->
+<!--                            <label class="form-check-label" for="flexSwitch2">Отправить push в Slack по завершению</label>-->
+<!--                        </div>-->
+<!--                        <div class="form-check form-switch mt-2">-->
+<!--                            <input type="checkbox" name="fios-set" class="form-check-input" value="smart" id="flexSwitch3">-->
+<!--                            <label class="form-check-label" for="flexSwitch3">По завершению парсинга скачать файл с ошибками</label>-->
+<!--                        </div>-->
                     </div>
+
+
+
+
+
+
                 </div>
                 </div>
             </div>
 
 
+            <div class="row mt-2">
+                    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
 
-                <div class="col-md-12">
-                   <form  onsubmit="event.preventDefault();">
-                                        <div class="row">
+                <div class="input-group">
+                                    <button class="btn btn-outline-warning" type="button" id="getbtn" onclick="getClients()">
+                                        <i id="spinner" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                                        Выгрузить клиентов</button>
+                                    <button class="btn btn-outline-success" type="button" id="parsebtn" onclick="parseFIO()">
+                                        <i id="spinner2" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                                        Парсинг (разбить на ФИО)</button>
+                                        <button class="btn btn-outline-success" type="button" id="savebtn" onclick="saveResult()">
+                                        <i id="spinner3" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                                        Сохранить изменения</button>
 
-                                        </div>
-                                        <div class="row">
+                </div>
+            </div>
+            <div class="row p-4 resultTable">
+                <div id="result" class="card overflow table-responsive"></div>
+                </div>
+            </div>
 
-                                                <div class="btn-group" role="group" aria-label="Menu">
-                                                    <button type="button" class="btn btn-primary checkbtn" onclick="getClients()">Получить данные</button>
-                                                    <button type="button" class="btn btn-primary runbtn" onclick="parseFIO()">Парсинг (разбить на ФИО)</button>
-                                                    <button type="button" class="btn btn-primary loadbtn" onclick="getError()">Отобразить ошибки парсинга</button>
-                                                    <button type="button" class="btn btn-primary warnbtn" onclick="saveResult()">Сохранить</button>
-                                                    <button type="button" class="btn btn-primary repairbtn" onclick="getReport()">Выгрузить ошибки</button>
-                                                </div>
 
-                                        </div>
-
-                  </form>
-                    </div>
-                    <div class="col-md-12">
-                        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
-                     <div id="loader" style="display: none;">
-                         <i class="fa fa-spinner fa-spin"></i> Ждем...
-                     </div>
-                    <div id="result"></div>
-                    </div>
 
             </div>
         </div>
