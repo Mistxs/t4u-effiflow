@@ -9,6 +9,7 @@ from config import NOTION_TOKEN
 from pytz import timezone
 
 knowledge_bp = Blueprint('knowledge', __name__, url_prefix='/knowledge')
+more_bp = Blueprint('more', __name__, url_prefix='/more')
 
 ts = datetime.now()
 timezone = timezone('Etc/GMT-3')
@@ -20,6 +21,16 @@ def knowledge_page(page_name):
     blocks = notion_integration(notion_page)
     title = pageindex[f"{page_name}"]
     return render_template(f'knowledge/{page_name}.html', title=title, active_page=page_name,  route='knowledge',  blocks=blocks, ts=ts_msk)
+
+
+@more_bp.route('/<page_name>', methods=['GET'])
+def more_pages(page_name):
+    notion_page = notionindex[f"{page_name}"]
+    blocks = notion_integration(notion_page)
+    title = pageindex[f"{page_name}"]
+    return render_template(f'more/{page_name}.html', title=title, active_page=page_name,  route='more',  blocks=blocks, ts=ts_msk)
+
+
 
 def notion_integration(NOTION_PAGE_ID):
     headers = {
@@ -34,6 +45,7 @@ def notion_integration(NOTION_PAGE_ID):
     blocks = []
 
     for block in data['results']:
+
         block_type = block.get('type', None)
         if block_type:
             if block_type == 'paragraph':
@@ -62,6 +74,14 @@ def notion_integration(NOTION_PAGE_ID):
                 source = block.get('image', {}).get('file', {}).get('url', '')
                 if source:
                     blocks.append({'type': 'image', 'source': source})
+            elif block_type == 'video':
+                video_data = block.get('video', {})
+                video_type = video_data.get('type', '')
+                if video_type == 'external':
+                    video_url = video_data.get('external', {}).get('url', '')
+                    if video_url:
+                        blocks.append({'type': 'video', 'source': video_url})
+
             elif block_type == 'callout':
                 print(block)
                 if 'text' in block[block_type]:

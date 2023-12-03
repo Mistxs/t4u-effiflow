@@ -11,7 +11,7 @@ from apps.loadvisits import loadvisits
 from apps.superloyal import superloyal
 from apps.daydetails import dayrecords
 from apps.findoverpayed import overpay
-from apps.notionparser import knowledge_bp
+from apps.notionparser import knowledge_bp, more_bp
 from apps.tccopy import tccopy
 from flask_cors import CORS
 
@@ -34,6 +34,7 @@ app.register_blueprint(superloyal)
 app.register_blueprint(dayrecords)
 app.register_blueprint(overpay)
 app.register_blueprint(knowledge_bp)
+app.register_blueprint(more_bp)
 app.register_blueprint(tccopy)
 
 
