@@ -53,6 +53,7 @@ def index():
 @app.route('/<route>/<page_name>', methods = ['GET'])
 def page_engine(route,page_name):
     title = pageindex[f"{page_name}"]
+    print(f'/{route}/{page_name}.html')
     return render_template(f'/{route}/{page_name}.html', title=title, active_page=page_name, route=route, ts=ts_msk)
 
 

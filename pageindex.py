@@ -14,7 +14,9 @@ pageindex = {
 "overpayed" : "Поиск переплат по визитам",
 "copytcard" : "Копирование техкарт между филиалами",
 "loadvisits" : "Загрузка визитов",
-"loadclients" : "Загрузка клиентов"
+"loadclients" : "Загрузка клиентов",
+"extensions": "Расширения",
+"superbar": ".superbar"
 }
 
 notionindex = {

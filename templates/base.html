@@ -109,7 +109,7 @@
           <!-- Layouts -->
           <li class="menu-item {% if route == 'knowledge' %} active open{% endif %}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class="menu-icon tf-icons bx bx-layout"></i>
+              <i class="menu-icon tf-icons bx bx-help-circle"></i>
               <div data-i18n="Layouts">Справочная</div>
             </a>
 
@@ -143,13 +143,20 @@
             </ul>
           </li>
 
+          <li class="menu-item {% if active_page == 'extensions' %} active{% endif %}">
+            <a href="{{ url_for('page_engine', page_name='extensions', route='more') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-extension"></i>
+              <div data-i18n="Analytics">Расширения</div>
+            </a>
+          </li>
+
           <li class="menu-header small text-uppercase">
             <span class="menu-header-text">1 Линия</span>
           </li>
 
           <li class="menu-item {% if route == 'kkm' %} active open{% endif %}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class="menu-icon tf-icons bx bx-layout"></i>
+              <i class="menu-icon tf-icons bx bx-wallet"></i>
               <div data-i18n="Layouts">ККМ</div>
             </a>
 
@@ -174,7 +181,7 @@
 
           <li class="menu-item {% if route == 'superpage' %} active open{% endif %}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class="menu-icon tf-icons bx bx-layout"></i>
+              <i class="menu-icon tf-icons bx bxs-file-find"></i>
               <div data-i18n="Layouts">Супер-Разделы</div>
             </a>
 
@@ -204,7 +211,7 @@
           <!-- Cards -->
           <li class="menu-item {% if active_page == 'fiosplitter' %} active{% endif %}">
            <a href="{{ url_for('page_engine', page_name='fiosplitter', route='2ndline') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <i class="menu-icon tf-icons bx bx-cut"></i>
               <div data-i18n="Basic">Сплиттер ФИО</div>
             </a>
           </li>
@@ -216,7 +223,7 @@
 <!--          </li>-->
           <li class="menu-item {% if active_page == 'search' %} active{% endif %}">
             <a href="{{ url_for('page_engine', page_name='search', route='2ndline') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <i class="menu-icon tf-icons bx bx-search-alt-2"></i>
               <div data-i18n="Basic">Поиск по трекеру</div>
             </a>
           </li>
@@ -225,19 +232,19 @@
           </li>
           <li class="menu-item {% if active_page == 'loadvisits' %} active{% endif %}">
             <a href="{{ url_for('page_engine', page_name='loadvisits', route='vnedrenie') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <i class="menu-icon tf-icons bx bx-clipboard"></i>
               <div data-i18n="Basic">Загрузка визитов</div>
             </a>
           </li>
           <li class="menu-item {% if active_page == 'loadclients' %} active{% endif %}">
             <a href="{{ url_for('page_engine', page_name='loadclients', route='vnedrenie') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-collection"></i>
+              <i class="menu-icon tf-icons bx bx-run"></i>
               <div data-i18n="Basic">Загрузка клиентов</div>
             </a>
           </li>
           <li class="menu-item {% if active_page == 'copytcard' %} active{% endif %}">
                   <a href="{{ url_for('page_engine', page_name='copytcard', route='vnedrenie')}}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-collection"></i>
+                    <i class="menu-icon tf-icons bx bxs-copy-alt"></i>
                     <div data-i18n="Basic">Технологические карты</div>
                   </a>
           </li>
@@ -297,7 +304,7 @@
             <footer class="content-footer footer bg-footer-theme">
               <div class="d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                 <div class="mb-2 mb-md-0">
-                  <pre>core ver.: 0.4 | ui ver.: 0.4 </pre>
+                  <pre>core ver.: 0.4 | ui ver.: 0.5 </pre>
 
                   <pre>build_ts: {{ ts }}</pre>
 
