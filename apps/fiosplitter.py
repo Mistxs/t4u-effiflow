@@ -230,12 +230,12 @@ def saveClients():
         password = response["password"]
         if password == "":
             token = login
-            saveResult(salon, newdata, headers, token)
+            runningtime = saveResult(salon, newdata, headers, token)
         else:
             usertoken = getToken(login, password)
-            saveResult(salon, newdata, headers, usertoken)
+            runningtime = saveResult(salon, newdata, headers, usertoken)
 
-        return jsonify({'status': 'success', 'text': newdata})
+        return jsonify({'status': 'success', 'text': f"Успешно сохранено, время выполнения - {runningtime}"})
     except Exception as e:
         return jsonify({'status': 'error', 'text': f'{e}'})
 
@@ -264,7 +264,8 @@ def saveResult(salon, data, headers, usertoken):
         
     end = datetime.datetime.now()
     print(f"query is running {end-now}")
-    return data
+    runningtime=end-now
+    return runningtime
 
 @fiosplitter.route('/getReport')
 def get_report():

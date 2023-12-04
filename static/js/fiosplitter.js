@@ -213,14 +213,11 @@ function saveResult() {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            var clients = data.text
             resultContainer.innerHTML = "";
-            displayClients(clients);
             // Скрываем спиннер и разблокируем кнопку после выполнения запроса
             buttonElement.disabled = false;
             spinnerElement.style.display = 'none';
-
-            displaySuccessMessage("Сохранено успешно")
+            displaySuccessMessage(data.text)
 
         } else if (data.status === 'error') {
             displayErrorMessage(data.text);
