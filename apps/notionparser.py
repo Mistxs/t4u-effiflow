@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 from flask import render_template, Blueprint
@@ -40,11 +41,22 @@ def notion_integration(NOTION_PAGE_ID):
     }
 
     response = requests.get(f'https://api.notion.com/v1/blocks/{NOTION_PAGE_ID}/children', headers=headers)
+    # data = response.json()
+    allblocks = []
     data = response.json()
-
+    while True:
+        if data["has_more"] == True:
+            allblocks.extend(data['results'])
+            cur = data["next_cursor"]
+            response = requests.get(f'https://api.notion.com/v1/blocks/{NOTION_PAGE_ID}/children?start_cursor={cur}',
+                                    headers=headers)
+            data = response.json()
+        elif data["has_more"] == False:
+            allblocks.extend(data['results'])
+            break
     blocks = []
 
-    for block in data['results']:
+    for block in allblocks:
 
         block_type = block.get('type', None)
         if block_type:
