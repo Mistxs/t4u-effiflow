@@ -259,7 +259,7 @@ def saveResult(salon, data, headers, usertoken):
         response = requests.request("PUT", url, headers=headers, data=payload)
         print(response.text)
         
-    with ThreadPoolExecutor() as executor:
+    with ThreadPoolExecutor(max_workers=3) as executor:
         executor.map(process_item, data)
         
     end = datetime.datetime.now()
