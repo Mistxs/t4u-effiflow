@@ -125,18 +125,18 @@
                   <div data-i18n="Without menu">Практические примеры в kibana</div>
                 </a>
               </li>
-              <li class="menu-item {% if active_page == 'kkm' %} active{% endif %}">
+              <li class="menu-item {% if active_page == 'kkm-theory' or active_page == 'kkm-video'  %} active open{% endif %}">
                 <a href=" javascript:void(0);" class="menu-link menu-toggle">
                   <div data-i18n="Layouts">Статьи про ККМ</div>
                 </a>
                   <ul class="menu-sub">
-                    <li class="menu-item {% if active_page == 'kkm' %} active{% endif %}">
+                    <li class="menu-item {% if active_page == 'kkm-video' %} active{% endif %}">
                       <a href="{{ url_for('page_engine', page_name='kkm-video', route='knowledge') }}" class="menu-link">
                         <div data-i18n="Without menu">Презентация ККМ</div>
                       </a>
                     </li>
 
-                    <li class="menu-item {% if active_page == 'kkm' %} active{% endif %}">
+                    <li class="menu-item {% if active_page == 'kkm-theory' %} active{% endif %}">
                       <a href="{{ url_for('page_engine', page_name='kkm-theory', route='knowledge') }}" class="menu-link">
                         <div data-i18n="Without menu">Теория ККМ</div>
                       </a>
