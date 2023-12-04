@@ -10,29 +10,29 @@
               <div class="col-sm-12">
                   <div class="card-body">
                     <h5 class="card-title text-primary">.superbar - Панель дополнительных возможностей для поддержки</h5>
-                    {% for block in blocks %}
-        {% if block.type == 'paragraph' %}
-            <p>{{ block.content | safe }}</p>
-        {% elif block.type.startswith('heading') %}
-            <h{{ block.type[-1] }}>{{ block.content }}</h{{ block.type[-1] }}>
-        {% elif block.type == 'to_do' %}
-            <input type="checkbox" {% if block.checked %} checked {% endif %}> {{ block.content }}<br>
-        {% elif block.type in ['bulleted_list_item', 'numbered_list_item'] %}
-            <li>{{ block.content }}</li>
-        {% elif block.type == 'image' %}
-            <img src="{{ block.source }}" alt="Notion Image">
-        {% elif block.type == 'callout' %}
-            <div class="callout">
-                {{ block.content }}
-            </div>
-        {% elif block.type == 'video' %}
-         <iframe id="ytplayer" type="text/html" width="720" height="405"
-                src="{{ block.source }}" frameborder="0" allowfullscreen>
+        {% for block in blocks %}
+            {% if block.type == 'paragraph' %}
+                <p>{{ block.content | safe }}</p>
+            {% elif block.type.startswith('heading') %}
+                <h{{ block.type[-1] }}>{{ block.content }}</h{{ block.type[-1] }}>
+            {% elif block.type == 'to_do' %}
+                <input type="checkbox" {% if block.checked %} checked {% endif %}> {{ block.content }}<br>
+            {% elif block.type in ['bulleted_list_item', 'numbered_list_item'] %}
+                <li>{{ block.content }}</li>
+            {% elif block.type == 'image' %}
+                <img src="{{ block.source }}" alt="Notion Image">
+            {% elif block.type == 'callout' %}
+                <div class="callout">
+                    {{ block.content }}
+                </div>
+            {% elif block.type == 'video' %}
+             <iframe id="ytplayer" type="text/html" width="720" height="405"
+                     src="{{ block.source }}" frameborder="0" allowfullscreen></iframe>
 
-        {% else %}
-            {{ block.content }}
-        {% endif %}
-    {% endfor %}
+            {% else %}
+                {{ block.content }}
+            {% endif %}
+        {% endfor %}
                   </div>
               </div>
             </div>
