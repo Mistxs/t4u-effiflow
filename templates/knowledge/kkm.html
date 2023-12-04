@@ -44,7 +44,7 @@
                                 </div>
                         {% elif item.type == 'video' %}
                                 <iframe id="ytplayer" type="text/html" width="720" height="405"
-                                 src="{{ block.source }}" frameborder="0" allowfullscreen></iframe>
+                                 src="{{ item.source }}" frameborder="0" allowfullscreen></iframe>
 
                         {% elif item.type == 'code' %}
                               <pre><code class="sql">{{ item.content }}</code></pre>
