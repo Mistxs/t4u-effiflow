@@ -17,7 +17,9 @@ pageindex = {
 "loadvisits" : "Загрузка визитов",
 "loadclients" : "Загрузка клиентов",
 "extensions": "Расширения",
-"superbar": ".superbar"
+"superbar": ".superbar",
+"dashboard": "Маркетплейс",
+"demo": "Демо"
 }
 
 notionindex = {

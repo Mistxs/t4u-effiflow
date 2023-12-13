@@ -319,3 +319,52 @@ body .notion {
 .fa-spinner {
 padding-right: 10px;
 }
+
+.mp-new-messages, .mp-moderation {
+height: 400px;
+overflow-y:auto;
+padding-right: 25px;
+}
+
+.mp-moderation .badge {
+min-width: 150px;
+}
+
+
+.mp-moderation .mp-title
+{
+min-width: 200px;
+}
+
+
+
+    .star {
+    font-family: "FontAwesome";
+    position: absolute;
+    right: -25px;
+    cursor: pointer;
+    color: #a3a4cc;
+    transition: all 0.3s ease;
+
+    }
+
+    .star:hover {
+    color: #ff5f00
+    }
+
+    .star.fa-star {
+      color: #e6691f;
+    }
+
+.chat-list {
+    padding: 0;
+}
+
+.chat-title {
+    padding: 10px 15px;
+    width: 100%;
+}
+
+.chat-list .badge {
+    margin-right: 15px;
+}
