@@ -173,6 +173,7 @@ def parsefio():
         password = response["password"]
         newdata = parseclients(clientsdata)
         print(newdata)
+        # newdata = splitByChar(clientsdata)
         return jsonify({'status': 'success', 'text': newdata})
     except Exception as e:
         return jsonify({'status': 'error', 'text': f'{e}'})
@@ -189,6 +190,17 @@ def parseclients(clients):
         if parsename["parsed"] == False:
             item["error"] = True
     return clients
+
+# простой сплит по символу-разделителю
+# def splitByChar(clients):
+#     for item in clients:
+#         newname = item["name"].split('--')[0]
+#         newpatronymic = item['name'].split('--')[-1]
+#         print(newpatronymic)
+#         item["name"]=newname
+#         item["patronymic"]=newpatronymic
+#     return clients
+
 
 # имя оставляет в имени, все остальное - в фамилию
 # def simpleSplit(clients):

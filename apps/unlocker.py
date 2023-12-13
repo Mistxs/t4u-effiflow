@@ -23,7 +23,9 @@ def unlock():
                 return jsonify({'status': 'success', 'text': response.text})
             elif link_type == 'kkm':
                 salon_id, document_id = getdata(link_result)
+
                 record_id = getrecid(salon_id, document_id)
+
                 response = send_post_request(record_id)
                 if response.text != 'Done':
                     raise Exception("Ошибка при разблокировке:", response.text)

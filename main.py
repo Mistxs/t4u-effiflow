@@ -16,6 +16,7 @@ from apps.tccopy import tccopy
 from flask_cors import CORS
 
 from apps.loadclients import loadclients
+from apps.marketplace.chatHandler import chatHandler
 
 app = Flask(__name__)
 CORS(app)
@@ -36,6 +37,8 @@ app.register_blueprint(overpay)
 app.register_blueprint(knowledge_bp)
 app.register_blueprint(more_bp)
 app.register_blueprint(tccopy)
+app.register_blueprint(chatHandler)
+
 
 
 

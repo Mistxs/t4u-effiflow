@@ -1,4 +1,5 @@
-from russiannames.parser import NamesParser
-parser = NamesParser()
-print(parser.parse('Нигматуллин Ринат Ахметович'))
-print(parser.parse('Петрова C.Я.'))
+import sys
+
+x = 1
+y = '1'
+print (x==y)
