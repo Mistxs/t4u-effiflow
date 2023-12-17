@@ -1,9 +1,12 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h2>дашборды тут будут</h2>
-
-   <h1>WebSocket Example</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Example</title>
+</head>
+<body>
+    <h1>WebSocket Example</h1>
     <button onclick="startTask()">Start Task</button>
     <pre id="percent"></pre>
     <h4 id="result"></h4>
@@ -34,5 +37,5 @@
                 .catch(error => console.error('Error:', error));
         }
     </script>
-
-{% endblock %}
+</body>
+</html>

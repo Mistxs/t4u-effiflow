@@ -17,6 +17,8 @@ from flask_cors import CORS
 
 from apps.loadclients import loadclients
 from apps.marketplace.chatHandler import chatHandler
+from apps.marketplace.dashboard import dashboard_bp, socketio
+
 
 app = Flask(__name__)
 CORS(app)
@@ -38,6 +40,8 @@ app.register_blueprint(knowledge_bp)
 app.register_blueprint(more_bp)
 app.register_blueprint(tccopy)
 app.register_blueprint(chatHandler)
+app.register_blueprint(dashboard_bp)
+
 
 
 
@@ -62,4 +66,7 @@ def page_engine(route,page_name):
 
 
 if __name__ == '__main__':
-    app.run(port=3010)
+    socketio.init_app(app)
+    socketio.run(app, debug=True, port=3010)
+
+    # app.run(port=3010)
