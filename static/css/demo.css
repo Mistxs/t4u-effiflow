@@ -372,3 +372,12 @@ min-width: 200px;
 .chat-list .badge {
     margin-right: 15px;
 }
+
+.chatDate {
+font-size: 11px;
+    padding-left: 5px;
+}
+
+.chatText {
+    font-size: 14px;
+}

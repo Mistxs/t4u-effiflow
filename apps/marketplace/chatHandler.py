@@ -1,12 +1,10 @@
 from datetime import datetime
-
-from flask import jsonify, request, Blueprint
-
-from config import bearer, db_params, headers
-from concurrent.futures import ThreadPoolExecutor
+from apps.marketplace.dashboard import hookHandler
 
 import pymysql
+from flask import jsonify, request, Blueprint
 
+from config import db_params
 
 chatHandler = Blueprint('chatHandler', __name__)
 
@@ -57,6 +55,7 @@ def readHooks():
         ticket_id = response["ticket_id"]
         text = response["last_comment"]
         savetodb(ticket_title,ticket_id,text)
+        hookHandler(response)
         return jsonify({'status': 'success', 'text': f'saved'})
     except Exception as e:
         return jsonify({'status': 'error', 'text': f'{e}'})
