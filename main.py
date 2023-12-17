@@ -67,6 +67,6 @@ def page_engine(route,page_name):
 
 if __name__ == '__main__':
     socketio.init_app(app)
-    socketio.run(app, debug=True, port=3100, allow_unsafe_werkzeug=True)
+    socketio.run(app, port=3000)
 
     # app.run(port=3010)
