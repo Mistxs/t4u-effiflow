@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Быстрые запросы к БД</h2>
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-6 mb-4 order-0">
+                  <div class="card ">
+
+                        <div class="card-body">
+
+                          <h5 class="card-title text-primary">Выбери запрос</h5>
+                          <div class="mp-new-messages">
+
+                            <ul class="list-group" id="message-list">
+                              <li data-mp-id="fraud" class="list-group-item list-group-item-action d-flex chat-list justify-content-between align-items-center">
+                                <span class="chat-title" data-bs-toggle="modal" data-bs-target="#extModal">Проверить на подключенный модуль антифрода</span>
+                              </li>
+                              <li data-mp-id="bulk_messages" class="list-group-item list-group-item-action d-flex chat-list justify-content-between align-items-center">
+                                <span class="chat-title" data-bs-toggle="modal" data-bs-target="#extModal">Проверить на отсутствие связей с рассылками смс</span>
+                              </li>
+                          </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+              </div>
+
+
+
+
+              </div>
+            </div>
+            <!-- / Content -->
+
+
+
+<!-- Модальное окно -->
+<div class="modal fade" id="extModal" tabindex="-1" aria-labelledby="extModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jsonModalLabel"></h5>
+            </div>
+            <div class="modal-body">
+                <div class="card bg-dark text-white mb-4">
+                <div class="card-header">Введи ID филиала</div>
+                <div class="card-body">
+                        <div class="input-group">
+                              <input type="number" class="col-md-3 col-12 form-control" id="salon" placeholder="ID филиала" autocomplete="off" required="">
+                        </div>
+                </div>
+                </div>
+
+                  <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="actButton" class="btn btn-outline-success">
+                              <span class="tf-icons bx bx-cloud"></span>&nbsp; Отправить запрос
+                </button>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="{{ url_for('static', filename='js/db-connector.js') }}"></script>
+{% endblock %}
