@@ -123,6 +123,17 @@ def set_reading_to_database(ticket_id, flag):
     except Exception as e:
         print(f"Error: {e}")
 
+
+
+def format_data_for_json(data):
+    formatted_data = []
+    for row in data:
+        formatted_row = list(row)
+        # Индекс 4 соответствует столбцу 'date'
+        formatted_row[4] = formatted_row[4].strftime("%Y-%m-%d %H:%M:%S")
+        formatted_data.append(formatted_row)
+    return formatted_data
+
 def hookHandler(data):
     supporter = ["Анатолий Филиппов","Андрей Павлов"]
 
@@ -139,7 +150,7 @@ def hookHandler(data):
             break
 
     new_data = get_data_from_database()
-
-    socketio.emit('update_table', {'data': list(new_data)})
+    formatted_data = format_data_for_json(new_data)
+    socketio.emit('update_table', {'data': formatted_data})
 
 
