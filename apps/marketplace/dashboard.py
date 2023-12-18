@@ -62,13 +62,13 @@ def get_data_from_database():
         cursor = conn.cursor()
 
         query = """
-        select ticket_id, title,
+         select ticket_id, title,
         count(case when is_reading is null then id else null end) as unread_count,
-        is_favourite
+        is_favourite, max(date)
         from marketplace_tickets_logs
         where is_reading is null or is_favourite = 1
         group by ticket_id
-        order by is_favourite desc
+        order by 4 desc, 5 desc;
         ;
                        """
         cursor.execute(query)
