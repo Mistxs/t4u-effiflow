@@ -1,5 +1,5 @@
 from datetime import datetime
-from apps.marketplace.dashboard import hookHandler
+from apps.marketplace.dashboard import hookHandler,readTickets
 
 import pymysql
 from flask import jsonify, request, Blueprint
@@ -60,3 +60,12 @@ def readHooks():
     except Exception as e:
         return jsonify({'status': 'error', 'text': f'{e}'})
 
+@chatHandler.route('/marketplace/chathandler/read', methods=['POST'])
+def readAllHooks():
+    try:
+        response = request.json
+        ticket_ids = response["ticket_ids"]
+        readTickets(ticket_ids)
+        return jsonify({'status': 'success', 'text': f'saved'})
+    except Exception as e:
+        return jsonify({'status': 'error in readAllHooks', 'text': f'{e}'})

@@ -154,4 +154,9 @@ def hookHandler(data):
     formatted_data = format_data_for_json(new_data)
     socketio.emit('update_table', {'data': formatted_data})
 
-
+def readTickets(data):
+    for item in data:
+        set_reading_to_database(item,1)
+    new_data = get_data_from_database()
+    formatted_data = format_data_for_json(new_data)
+    socketio.emit('update_table', {'data': formatted_data})
