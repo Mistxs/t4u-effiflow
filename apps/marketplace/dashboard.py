@@ -62,14 +62,13 @@ def get_data_from_database():
         cursor = conn.cursor()
 
         query = """
-         select ticket_id, title,
-        count(case when is_reading is null then id else null end) as unread_count,
-        is_favourite, max(date)
-        from marketplace_tickets_logs
-        where is_reading is null or is_favourite = 1
-        group by ticket_id
-        order by 4 desc, 5 desc;
-        ;
+        SELECT ticket_id, title,
+        COUNT(CASE WHEN is_reading IS NULL THEN id ELSE NULL END) AS unread_count,
+        is_favourite, MAX(date)
+        FROM marketplace_tickets_logs
+        WHERE is_reading IS NULL OR is_favourite = 1
+        GROUP BY ticket_id, title, is_favourite
+        ORDER BY 4 DESC, 5 DESC;
                        """
         cursor.execute(query)
         data = cursor.fetchall()
@@ -78,7 +77,7 @@ def get_data_from_database():
 
         return data
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error in get_data_from_database: {e}")
 
 def set_favourite_to_database(ticket_id, flag):
     try:
@@ -97,17 +96,18 @@ def get_favourite_tickets(tickets):
         conn = pymysql.connect(**db_params)
         cursor = conn.cursor()
 
-        query = f"""select distinct(is_favourite) 
-        from marketplace_tickets_logs 
-        where ticket_id = {tickets} and is_favourite is not null;
+        query = f"""SELECT is_favourite
+                FROM marketplace_tickets_logs
+                WHERE ticket_id = {tickets} AND is_favourite IS NOT NULL
+                GROUP BY is_favourite;
                        """
         cursor.execute(query)
-        data = cursor.fetchall()[0]
+        data = cursor.fetchall()
         conn.close()
-        if data[0] == 0:
-            return False
-        else:
+        if data[0] == 1:
             return True
+        else:
+            return False
     except Exception as e:
         print(f"Error: {e}")
 
