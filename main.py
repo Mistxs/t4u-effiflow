@@ -16,8 +16,9 @@ from apps.tccopy import tccopy
 from flask_cors import CORS
 
 from apps.loadclients import loadclients
-from apps.marketplace.chatHandler import chatHandler
+from apps.marketplace.mpHandler import mpHandler
 from apps.marketplace.dashboard import dashboard_bp, socketio
+
 
 from apps.database_connector import db_connector
 
@@ -40,7 +41,7 @@ app.register_blueprint(overpay)
 app.register_blueprint(knowledge_bp)
 app.register_blueprint(more_bp)
 app.register_blueprint(tccopy)
-app.register_blueprint(chatHandler)
+app.register_blueprint(mpHandler)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(db_connector)
 
@@ -68,6 +69,6 @@ def page_engine(route,page_name):
 
 if __name__ == '__main__':
     socketio.init_app(app)
-    socketio.run(app, debug=True, port=3000)
+    socketio.run(app, debug=True, port=3100, allow_unsafe_werkzeug=True)
 
     # app.run(port=3010)

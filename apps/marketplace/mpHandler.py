@@ -1,12 +1,18 @@
 from datetime import datetime
-from apps.marketplace.dashboard import hookHandler,readTickets
+from apps.marketplace.dashboard import hookHandler, readTickets
+from apps.marketplace.src.api_schemas import route_schemas
+from apps.marketplace.moderation import createNewPage
+
 
 import pymysql
 from flask import jsonify, request, Blueprint
+from jsonschema import validate, ValidationError
+
 
 from config import db_params
 
-chatHandler = Blueprint('chatHandler', __name__)
+
+mpHandler = Blueprint('mpHandler', __name__)
 
 connection = pymysql.connect(**db_params)
 
@@ -47,7 +53,13 @@ def savetodb(ticket_title, ticket_id, text):
         print(f"Error: {e}")
 
 
-@chatHandler.route('/marketplace/chathandler', methods=['POST'])
+def validate_json(route, data):
+    try:
+        validate(data, route_schemas.get(route, {}))
+    except ValidationError as e:
+        raise e
+
+@mpHandler.route('/marketplace/chathandler', methods=['POST'])
 def readHooks():
     try:
         response = request.json
@@ -60,7 +72,7 @@ def readHooks():
     except Exception as e:
         return jsonify({'status': 'error', 'text': f'{e}'})
 
-@chatHandler.route('/marketplace/chathandler/read', methods=['POST'])
+@mpHandler.route('/marketplace/chathandler/read', methods=['POST'])
 def readAllHooks():
     try:
         response = request.json
@@ -69,3 +81,26 @@ def readAllHooks():
         return jsonify({'status': 'success', 'text': f'saved'})
     except Exception as e:
         return jsonify({'status': 'error in readAllHooks', 'text': f'{e}'})
+
+
+@mpHandler.route('/marketplace/newModeration', methods=['POST'])
+def read_new_moderation_request():
+    try:
+        validate_json('/marketplace/newModeration', request.json)
+        response = request.json
+
+        params = {
+            "parnter_name": response["name"],
+            "status": "Новый",
+            "slack_url": response["slack_url"],
+            "dev_url": response["dev_url"],
+            "app_url": response["app_url"]
+        }
+
+        createNewPage(params)
+
+        return jsonify({'status': 'success', 'text': 'saved'})
+    except ValidationError as e:
+        return jsonify({'status': 'error in read_new_moderation_request, module validate_json', 'text': f'Validation error: {e}'})
+    except Exception as e:
+        return jsonify({'status': 'error in read_new_moderation_request', 'text': f'{e}'})

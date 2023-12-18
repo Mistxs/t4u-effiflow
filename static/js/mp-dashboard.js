@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const title = listItem.querySelector('.chat-title').textContent;
 
             eddyLink.href = `https://yclients.helpdeskeddy.com/ru/ticket/list/filter/id/search/ticket/${mpId}?search=${mpId}`;
+            tgLink.setAttribute('tId',mpId);
             modalTitle.textContent = title;
 
 
@@ -86,6 +87,19 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             generateList(data);
         });
+
+    document.getElementById('tgButton').addEventListener('click', function (event) {
+        const ids = tgLink.getAttribute('tId');
+        fetch('/marketplace/chathandler/read', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "ticket_ids": [ids]
+                })
+            })
+    });
 
     function generateList(data) {
     const list = document.getElementById('message-list');
