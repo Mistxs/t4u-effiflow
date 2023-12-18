@@ -52,7 +52,8 @@ def handle_favourite_status(data):
     is_favourite = data['is_favourite']
     set_favourite_to_database(mp_id,is_favourite)
     new_data = get_data_from_database()
-    socketio.emit('update_table', {'data': list(new_data)})
+    formatted_data = format_data_for_json(new_data)
+    socketio.emit('update_table', {'data': list(formatted_data)})
     emit('favourite_status_updated', {'success': True})
 
 
