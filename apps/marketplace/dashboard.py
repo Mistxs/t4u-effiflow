@@ -129,7 +129,8 @@ def hookHandler(data):
     #помечаем чат избранным, если сообщение до этого были избранными
     if get_favourite_tickets(data["ticket_id"]):
         set_favourite_to_database(data["ticket_id"],1)
-
+    else:
+        set_favourite_to_database(data["ticket_id"],0)
 
     #помечаем чат прочитанным, если сообщение пришло от человека в списке
     for name in supporter:
