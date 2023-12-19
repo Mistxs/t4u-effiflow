@@ -1,0 +1,17 @@
+2023-12-19 14:21:20.952 | INFO     | apps.marketplace.mpHandler:read_new_moderation_request:91 - Hook received: <Request 'http://127.0.0.1:3000/marketplace/newModeration' [POST]>
+2023-12-19 14:21:20.954 | INFO     | apps.marketplace.mpHandler:read_new_moderation_request:92 - Hook payload: {'name': 'пробуем, ебана', 'slack_url': 'https://yclients-dev.slack.com/archives/C03V39JQJF5/p1699532227677849', 'dev_url': 'https://yclients.com/appstore/developers/3/4785/general_info/', 'app_url': 'https://yclients.com/e/mp_4785_wahelpzadachi/'}
+2023-12-19 14:21:22.274 | INFO     | apps.marketplace.mpHandler:read_new_moderation_request:107 - read_new_moderation_request done : status: success, response: {"object":"page","id":"ad3e8fae-46e2-4a6c-bcb0-9f3456e5cda9","created_time":"2023-12-19T11:21:00.000Z","last_edited_time":"2023-12-19T11:21:00.000Z","created_by":{"object":"user","id":"120b1422-479e-465d-a82e-ca3ce4cf093f"},"last_edited_by":{"object":"user","id":"120b1422-479e-465d-a82e-ca3ce4cf093f"},"cover":null,"icon":null,"parent":{"type":"database_id","database_id":"a90a2f9b-55ec-454c-ac7b-ed7d9207986e"},"archived":false,"properties":{"Дата начала ручной проверки":{"id":"%3AiIw","type":"date","date":null},"Создано":{"id":"%3BH_E","type":"created_time","created_time":"2023-12-19T11:21:00.000Z"},"Комментарий":{"id":"Ocua","type":"rich_text","rich_text":[]},"Ссылка на Slack":{"id":"%5CnjX","type":"url","url":"https://yclients-dev.slack.com/archives/C03V39JQJF5/p1699532227677849"},"Ссылка на кабинет разработчика":{"id":"%5Cpss","type":"url","url":"https://yclients.com/appstore/developers/3/4785/general_info/"},"Ссылка на приложение":{"id":"bZ_B","type":"url","url":"https://yclients.com/e/mp_4785_wahelpzadachi/"},"Модератор":{"id":"lMbw","type":"rich_text","rich_text":[]},"Статус":{"id":"s%60yq","type":"select","select":{"id":"avfX","name":"Новый","color":"blue"}},"Последнее обновление":{"id":"tFAY","type":"last_edited_time","last_edited_time":"2023-12-19T11:21:00.000Z"},"Имя партнера":{"id":"title","type":"title","title":[{"type":"text","text":{"content":"пробуем, ебана","link":null},"annotations":{"bold":false,"italic":false,"strikethrough":false,"underline":false,"code":false,"color":"default"},"plain_text":"пробуем, ебана","href":null}]}},"url":"https://www.notion.so/ad3e8fae46e24a6cbcb09f3456e5cda9","public_url":"https://mistxs.notion.site/ad3e8fae46e24a6cbcb09f3456e5cda9","request_id":"3cfa98ac-7e62-4ca2-b66d-68517796a66a"}
+2023-12-19 14:22:05.462 | INFO     | apps.marketplace.mpHandler:read_new_moderation_request:91 - Hook received: <Request 'http://127.0.0.1:3000/marketplace/newModeration' [POST]>
+2023-12-19 14:22:05.475 | INFO     | apps.marketplace.mpHandler:read_new_moderation_request:92 - Hook payload: {'ujdyj': 'sdfdsf'}
+2023-12-19 14:22:05.482 | ERROR    | apps.marketplace.mpHandler:read_new_moderation_request:112 - status: error in read_new_moderation_request, module validate_json, text: Validation error: 'name' is a required property
+
+Failed validating 'required' in schema:
+    {'properties': {'app_url': {'format': 'uri', 'type': 'string'},
+                    'dev_url': {'format': 'uri', 'type': 'string'},
+                    'name': {'type': 'string'},
+                    'slack_url': {'format': 'uri', 'type': 'string'}},
+     'required': ['name', 'slack_url', 'dev_url', 'app_url'],
+     'type': 'object'}
+
+On instance:
+    {'ujdyj': 'sdfdsf'}

@@ -7,12 +7,14 @@ from apps.marketplace.moderation import createNewPage
 import pymysql
 from flask import jsonify, request, Blueprint
 from jsonschema import validate, ValidationError
+from loguru import logger
 
 
 from config import db_params
 
 
 mpHandler = Blueprint('mpHandler', __name__)
+logger.add("mpHandler.log", level="INFO", rotation="1 week", retention="2 weeks")
 
 connection = pymysql.connect(**db_params)
 
@@ -86,6 +88,10 @@ def readAllHooks():
 @mpHandler.route('/marketplace/newModeration', methods=['POST'])
 def read_new_moderation_request():
     try:
+        logger.info(f"Hook received: {request}")
+        logger.info(f"Hook payload: {request.json}")
+
+
         validate_json('/marketplace/newModeration', request.json)
         response = request.json
 
@@ -97,10 +103,16 @@ def read_new_moderation_request():
             "app_url": response["app_url"]
         }
 
-        createNewPage(params)
+        resp = createNewPage(params)
+        logger.info(f"read_new_moderation_request done : status: success, response: {resp}")
+
 
         return jsonify({'status': 'success', 'text': 'saved'})
     except ValidationError as e:
-        return jsonify({'status': 'error in read_new_moderation_request, module validate_json', 'text': f'Validation error: {e}'})
+        logger.error(f"status: error in read_new_moderation_request, module validate_json, text: Validation error: {e}")
+
+        return jsonify({'status': 'error in module validate_json', 'text': f'Validation error: {e}'})
     except Exception as e:
+        logger.error(f"status: error in read_new_moderation_request, text: {e}")
+
         return jsonify({'status': 'error in read_new_moderation_request', 'text': f'{e}'})

@@ -62,7 +62,7 @@ def createNewPage(payloadparams,content=blocks):
 
         if response.status_code != 200:
             raise Exception(f"Error in post page. Notion response: {response.text}")
-        print(response)
+        return response.text
     except Exception as e:
         raise e
 
