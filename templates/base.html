@@ -266,6 +266,12 @@
                     <div data-i18n="Basic">Технологические карты</div>
                   </a>
           </li>
+          <li class="menu-item {% if active_page == 'exportgoods' %} active{% endif %}">
+                  <a href="{{ url_for('page_engine', page_name='exportgoods', route='vnedrenie')}}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-copy-alt"></i>
+                    <div data-i18n="Basic">Выгрузка сетевых товаров</div>
+                  </a>
+          </li>
 
         </ul>
       </aside>

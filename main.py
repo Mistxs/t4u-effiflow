@@ -13,6 +13,7 @@ from apps.daydetails import dayrecords
 from apps.findoverpayed import overpay
 from apps.notionparser import knowledge_bp, more_bp
 from apps.tccopy import tccopy
+from apps.exportgoods import exportgoods
 from flask_cors import CORS
 
 from apps.loadclients import loadclients
@@ -44,7 +45,7 @@ app.register_blueprint(tccopy)
 app.register_blueprint(mpHandler)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(db_connector)
-
+app.register_blueprint(exportgoods)
 
 
 
@@ -69,6 +70,5 @@ def page_engine(route,page_name):
 
 if __name__ == '__main__':
     socketio.init_app(app)
+    # socketio.run(app, port=3100,allow_unsafe_werkzeug=True )
     socketio.run(app, port=3000)
-
-    # app.run(port=3010)

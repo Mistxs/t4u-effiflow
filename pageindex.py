@@ -16,6 +16,7 @@ pageindex = {
 "copytcard" : "Копирование техкарт между филиалами",
 "loadvisits" : "Загрузка визитов",
 "loadclients" : "Загрузка клиентов",
+"exportgoods": "Выгрузка сетевых товаров",
 "extensions": "Расширения",
 "superbar": ".superbar",
 "dashboard": "Маркетплейс",

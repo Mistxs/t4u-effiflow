@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to XLS Converter</title>
+</head>
+<body>
+    <button id="getButton">Получить</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function() {
+            console.log('WebSocket connected');
+        });
+
+        socket.on('file_link', function(data) {
+            // Действия с ссылкой на файл
+            console.log('Received file link:', data.link);
+
+            // Пример: создание ссылки для скачивания файла
+            var link = document.createElement('a');
+            link.href = data.link;
+            link.download = 'output.xlsx';
+            link.click();
+        });
+
+        document.getElementById('getButton').addEventListener('click', function() {
+            // Пример отправки запроса на сервер
+            socket.emit('convert_and_send', JSON.stringify([{"id": 23500351, "goodcat": 983602, "titlecat": "\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f 1", "pidtitle": "", "title": "\u0442\u043e\u0432\u0430\u0440 1", "salons": "91372,39184,543449"}, {"id": 23500358, "goodcat": 983603, "titlecat": "\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f 2", "pidtitle": "", "title": "\u0442\u043e\u0432\u0430\u0440 2", "salons": ""}, {"id": 23500360, "goodcat": 983605, "titlecat": "\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f 3", "pidtitle": "", "title": "\u0442\u043e\u0432\u0430\u0440 3", "salons": ""}]));
+        });
+    </script>
+</body>
+</html>

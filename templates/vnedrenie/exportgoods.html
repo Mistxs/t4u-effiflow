@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card bg-dark text-white mb-4">
+            <div class="card-header">Выгрузка сетевых товаров</div>
+            <div class="card-body">
+                <p class="card-text">
+                    Тестовая версия, выгружаются неудаленные, неархивные товары, которые находятся в сети,
+                    и которые не привязаны к абонементам / сертификатам. По вашей обратной связи запрос
+                    можно редактировать / улучшать.
+               </p>
+                <p class="card-text">
+                    После того как указали сеть и нажали выгрузить, сервер начинает обрабатывать запрос. По завершении
+                    файл будет автоматически отправлен на загрузку в браузер и появится сообщение о завершении задания.
+                </p>
+                <p class="card-text">
+                    Статусное сообщение (в процессе \ завершено \ ошибка) обновляется автоматически. Страницу обновлять не нужно.
+                </p>
+                <div class="input-group">
+                        <input type="number" class="col-md-3 col-12 form-control" id="chain_id" placeholder="ID сети"  autocomplete="off"  required>
+                        <button class="btn btn-outline-warning" type="button" id="actionButton" onclick="startCopy()">
+                            <i id="spinner" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                            Запустить запрос</button>
+                </div>
+                 </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+
+</div>
+
+<div class="row p-4 resultTable">
+        <div id="result" class="card overflow table-responsive"></div>
+        </div>
+</div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+<script src="{{ url_for('static', filename='js/exportgoods.js') }}"></script>
+{% endblock %}
