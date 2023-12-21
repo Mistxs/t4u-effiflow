@@ -15,6 +15,13 @@ function startCopy() {
      // Получение данных из формы
     var chain_id = document.getElementById("chain_id").value;
 
+    const buttonElement = document.getElementById('actionButton');
+    const spinnerElement = document.getElementById('spinner');
+
+    // Показываем спиннер и блокируем кнопку во время запроса
+    buttonElement.disabled = true;
+    spinnerElement.style.display = 'inline';
+
     return fetch('/exportgoods', {
         method: 'POST',
         headers: {
@@ -25,37 +32,24 @@ function startCopy() {
         })
     })
 
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            displaySuccessMessage("Функция по копированию завершилась");
-//            drawTable(dataset)
-        } else if (data.status === 'error') {
-            displayErrorMessage(data.text);
-        }
+    .then(response => response.blob())
+    .then(blob => {
+        document.querySelectorAll('.btn').forEach(function(btn) {
+                btn.disabled = false;
+                btn.style.cursor = "pointer";
+              });
+             // Скрываем спиннер и разблокируем кнопку после выполнения запроса
+            buttonElement.disabled = false;
+            spinnerElement.style.display = 'none';
+
+        // Создаем объект URL для файла
+        var url = URL.createObjectURL(blob);
+
+        // Меняем расширение файла на xlsx
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'report.xlsx';
+        a.click();
+
     })
 }
-
-var socket = io();
-
-// Обработка события file-download от сервера
-socket.on('file-download', (data) => {
-    // data.file содержит base64-кодированный файл
-    // Далее вы можете обработать файл, например, скачать его на клиенте
-    // Создание элемента <a> для скачивания файла
-    const a = document.createElement('a');
-    a.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + data.file;
-    a.download = 'exported_file.xlsx';
-    a.click();
-});
-
-socket.on('text', (data) => {
-    console.log(data);
-});
-
-socket.on('file-ready', function(data) {
-            // Обработка сообщения о готовности файла
-            console.log('File ready:', data);
-            document.getElementById('result').innerText = 'Файл готов. ' +
-                'Ссылка для скачивания: ' + data.link;
-        });

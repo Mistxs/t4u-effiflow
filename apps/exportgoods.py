@@ -5,7 +5,7 @@ import os
 
 from openpyxl.workbook import Workbook
 
-from flask import Blueprint, jsonify, request, send_from_directory
+from flask import Blueprint, jsonify, request, send_from_directory, make_response
 from config import db_params
 
 import requests
@@ -28,37 +28,46 @@ def download(filename):
 def start_Export():
     try:
         chain_id = request.json['chain_id']
+        goodsdata = query_to_db(chain_id)
+        excel_file_path = createExcel(goodsdata)
 
-        async def generate_and_send_file():
-            try:
-                print("Start generate_and_send_file")
-                goodsdata = query_to_db(chain_id)
-                excel_file_path = createExcel(goodsdata)
+        response = make_response(excel_file_path.getvalue())
+        response.headers['Content-Type'] = 'application/vnd.ms-excel'
+        response.headers['Content-Disposition'] = 'attachment; filename=report.xlsx'
 
-                socketio.emit('text', "send text data")
+        return response
 
-                # Перемещаем файл в папку uploads
-                output_file_path = os.path.join(exportgoods.config['UPLOAD_FOLDER'], 'output.xlsx')
-                os.rename(excel_file_path, output_file_path)
 
-                # Отправляем ссылку на файл на клиент через Socket.IO
-                socketio.emit('file-ready', {'status': 'success', 'link': '/download/output.xlsx'})
+        # async def generate_and_send_file():
+        #     try:
+        #         print("Start generate_and_send_file")
+        #         goodsdata = query_to_db(chain_id)
+        #         excel_file_path = createExcel(goodsdata)
+        #
+        #         socketio.emit('text', "send text data")
+        #
+        #         # Перемещаем файл в папку uploads
+        #         output_file_path = os.path.join(exportgoods.config['UPLOAD_FOLDER'], 'output.xlsx')
+        #         os.rename(excel_file_path, output_file_path)
+        #
+        #         # Отправляем ссылку на файл на клиент через Socket.IO
+        #         socketio.emit('file-ready', {'status': 'success', 'link': '/download/output.xlsx'})
+        #
+        #         print("File link sent successfully")
+        #
+        #     except Exception as e:
+        #         print(f"Error in generate_and_send_file: {e}")
 
-                print("File link sent successfully")
+        # socketio.start_background_task(generate_and_send_file)
 
-            except Exception as e:
-                print(f"Error in generate_and_send_file: {e}")
-
-        socketio.start_background_task(generate_and_send_file)
-
-        return jsonify({'status': 'success', "text": "Data processing started"})
+        # return jsonify({'status': 'success', "text": "Data processing started"})
     except Exception as e:
         return jsonify({'status': 'error in start_Export', 'text': f'{e}'})
 
 def createExcel(goodsdata):
     try:
         # Создаем новую workbook и worksheet в Excel
-        print(f"start create excel. data: {goodsdata}")
+        # print(f"start create excel. data: {goodsdata}")
         workbook = Workbook()
         worksheet = workbook.active
 
@@ -93,8 +102,8 @@ def createExcel(goodsdata):
 
 def query_to_db(chain_id):
     try:
-        # url = f"https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/db_connector/exportgoods?chain={chain_id}"
-        url = f"http://127.0.0.1:5000/db_connector/exportgoods?chain_id={chain_id}"
+        url = f"https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/db_connector/exportgoods?chain={chain_id}"
+        # url = f"http://127.0.0.1:5100/db_connector/exportgoods?chain_id={chain_id}"
         response = requests.request("GET", url).json()
         if response["status"] == "success":
             gooddata = response["data"]
