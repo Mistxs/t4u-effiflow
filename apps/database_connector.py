@@ -16,3 +16,4 @@ ts_msk = ts.astimezone(timezone)
 @db_connector.route('/supermod')
 def index():
     return render_template('/supermod/demo.html', ts=ts_msk, title="DB_Connector")
+

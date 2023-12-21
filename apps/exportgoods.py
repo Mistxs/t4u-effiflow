@@ -1,6 +1,7 @@
 import asyncio
 import base64
 import io
+import json
 import os
 
 from openpyxl.workbook import Workbook
@@ -102,9 +103,16 @@ def createExcel(goodsdata):
 
 def query_to_db(chain_id):
     try:
-        url = f"https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/db_connector/exportgoods?chain={chain_id}"
-        # url = f"http://127.0.0.1:5100/db_connector/exportgoods?chain_id={chain_id}"
-        response = requests.request("GET", url).json()
+        url = f"https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/db_connector/exportgoods"
+
+        # url = f"http://127.0.0.1:5000/db_connector/exportgoods"
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        payload = json.dumps({
+            "chain_id":chain_id
+        })
+        response = requests.request("POST", url, headers=headers, data=payload).json()
         if response["status"] == "success":
             gooddata = response["data"]
             return gooddata
