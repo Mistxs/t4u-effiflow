@@ -16,7 +16,7 @@ import pymysql
 connection = pymysql.connect(**db_params)
 
 dashboard_bp = Blueprint('dashboard', __name__, url_prefix='/marketplace')
-socketio = SocketIO()
+socketio = SocketIO(transports='websocket', ping_interval=60, ping_timeout=20)
 
 ts = datetime.now()
 timezone = timezone('Etc/GMT-3')

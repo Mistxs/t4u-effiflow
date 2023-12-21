@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    var socket = io();
+var socket = io({ transports: ['websocket'] });
 
     socket.on('task_completed', function (data) {
         console.log('Task completed:', data);
