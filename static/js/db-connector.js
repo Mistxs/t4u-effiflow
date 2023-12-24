@@ -1,6 +1,6 @@
 function displayErrorMessage(message) {
     var errorMessage = $('#error-message');
-    errorMessage.text(message);
+    errorMessage.html(message);
     errorMessage.removeClass('alert-success').addClass('alert-danger').slideDown();
 }
 
@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitle.textContent = title;
             actButton.setAttribute('flag', flag);
 
+
+
         }
     });
 
@@ -38,28 +40,55 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Загрузка данных через AJAX запрос при загрузке страницы
-    function sendQuery(flag,salon) {
-            fetch('https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/dbconnect', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "flag": flag,
-                    "salon_id": salon
-                })
-            })
+    function sendQuery(flag, salon) {
+    const buttonElement = document.getElementById('actButton');
+    const spinnerElement = document.getElementById('spinner');
 
-            .then(response => response.json())
+    // Показываем спиннер и блокируем кнопку во время запроса
+    buttonElement.disabled = true;
+    spinnerElement.style.display = 'inline';
 
-            .then(data => {
-                if (data.status === 'success') {
-                    displaySuccessMessage(data.text);
+    fetch('https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/dbconnect', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "flag": flag,
+            "salon_id": salon
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+    buttonElement.disabled = false;
+    spinnerElement.style.display = 'none';
+    if (data.status === 'success') {
 
-                } else if (data.status === 'error') {
-                    displayErrorMessage(data.text);
-                }
-            })
-    };
+        if (flag === 'bulk_messages') {
+            // Дополнительная проверка для flag === 'bulk_message'
+            if (data.result === 'done') {
+                displaySuccessMessage('Связь с типами для массовых рассылок подключена');
+            } else if (data.result === 'empty') {
+                // Передаем текст ошибки и SQL-запрос в displayErrorMessage
+                const errorMessageHTML = "Связь отсутствует. Запрос для включения:<br><pre><code class='sql'>" + data.query + "</code></pre> <br> Ответ от БД: <pre>" + data.sqlresponse + "</pre>";
+                displayErrorMessage(errorMessageHTML);
+                hljs.highlightAll()
+            }
+        } else if (flag === 'fraud') {
+            if (data.result === 'empty') {
+                displaySuccessMessage('Подключенного антифрод модуля не обнаружено');
+            } else if (data.result === 'done') {
+                // Передаем текст ошибки и SQL-запрос в displayErrorMessage
+                const errorMessageHTML = "Антифрод включен. Запрос для отключения:<br><pre><code class='sql'>" + data.query + "</code></pre>  <br> Ответ от БД: <pre>" + data.sqlresponse + "</pre>";
+                displayErrorMessage(errorMessageHTML);
+                hljs.highlightAll()
+            }
+        }
+    } else if (data.status === 'error') {
+        displayErrorMessage(data.text);
+    }
+});
+}
+
 
 });

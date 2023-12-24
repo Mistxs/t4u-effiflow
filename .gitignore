@@ -10,3 +10,4 @@ __pycache__/pageindex.cpython-310.pyc
 apps/__pycache__/fiosplitter.cpython-310.pyc
 apps/__pycache__/fsr.cpython-310.pyc
 apps/__pycache__/search.cpython-310.pyc
+*.pyc

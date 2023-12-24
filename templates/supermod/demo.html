@@ -50,14 +50,18 @@
                         <div class="input-group">
                               <input type="number" class="col-md-3 col-12 form-control" id="salon" placeholder="ID филиала" autocomplete="off" required="">
                         </div>
+
                 </div>
                 </div>
 
-                  <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                  <div id="error-message" class="alert alert-danger" style="display: none;">
+
+                  </div>
             </div>
             <div class="modal-footer">
                 <button type="button" id="actButton" class="btn btn-outline-success">
-                              <span class="tf-icons bx bx-cloud"></span>&nbsp; Отправить запрос
+                     <i id="spinner" style="display: none;" aria-hidden="true" class="fa fa-spinner"></i>
+                    <span class="tf-icons bx bx-cloud"></span>&nbsp; Отправить запрос
                 </button>
 
 
