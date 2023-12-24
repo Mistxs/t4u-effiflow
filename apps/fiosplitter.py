@@ -1,4 +1,5 @@
 import datetime
+import threading
 
 from flask import jsonify, request, Blueprint, send_file, make_response
 import requests
@@ -8,13 +9,17 @@ from openpyxl import Workbook
 import io
 from config import bearer, db_params
 from concurrent.futures import ThreadPoolExecutor
+from apps.more.socketio_setup import socketio
+
 
 import pymysql
 
 
 fiosplitter = Blueprint('fiosplitter', __name__)
 
+
 connection = pymysql.connect(**db_params)
+
 
 headers = {
     'Content-Type': 'application/json',
@@ -116,6 +121,7 @@ def getClients(salon, headers, token):
     clientsdata = []
     headers['Authorization'] = f'{bearer}, {token}'
     totalcount = -1
+
     while totalcount == -1 or page <= totalcount / 200 + 1:
         url = f"https://api.yclients.com/api/v1/company/{salon}/clients/search"
         payload = json.dumps({
@@ -132,6 +138,7 @@ def getClients(salon, headers, token):
         response = requests.request("POST", url, headers=headers, data=payload).json()
         if totalcount == -1:
             totalcount = response["meta"]["total_count"]
+
         for item in response["data"]:
             clientsdata.append({
                 "id": item.get("id", ""),
@@ -140,6 +147,8 @@ def getClients(salon, headers, token):
                 "patronymic": item.get("patronymic", ""),
                 "surname": item.get("surname", "")
             })
+
+        socketio.emit('parseclients', {'counter': {'totalclients':totalcount, 'currentcount':len(clientsdata)}})
         page += 1
     return clientsdata
 
@@ -148,6 +157,7 @@ def getBirthDay(salon, headers, token):
     page = 1
     headers['Authorization'] = f'{bearer}, {token}'
     totalcount = -1
+    currentcount = 0
     while totalcount == -1 or page <= totalcount / 300 + 1:
         url = f"https://api.yclients.com/api/v1/clients/{salon}?count=300&page={page}"
         response = requests.request("GET", url, headers=headers).json()
@@ -157,8 +167,12 @@ def getBirthDay(salon, headers, token):
             for client in clientsdata:
                 if client["id"] == item["id"]:
                     client["birthday"] = item.get("birth_date", "")
+                    currentcount += 1
+                    socketio.emit('addedBD',
+                                  {'counter': {'totalclients': totalcount, 'currentcount': currentcount}})
                     break
         page += 1
+
     safeClients(salon, clientsdata)
     return clientsdata
 
@@ -181,6 +195,8 @@ def parsefio():
 
 def parseclients(clients):
     parser = NamesParser()
+    total_clients = len(clients)
+    current_count = 0
     for item in clients:
         parsename = parser.parse(f'{item["surname"]} {item["name"]} {item["patronymic"]}')
         if parsename["parsed"] == True:
@@ -189,6 +205,10 @@ def parseclients(clients):
             item["patronymic"] = parsename.get("mn", "")
         if parsename["parsed"] == False:
             item["error"] = True
+
+        current_count += 1
+        socketio.emit('splitFIO', {'counter': {'currentcount': current_count, 'totalclients': total_clients}})
+
     return clients
 
 # простой сплит по символу-разделителю
@@ -256,7 +276,12 @@ def saveResult(salon, data, headers, usertoken):
     headers['Authorization'] = f'{bearer}, {usertoken}'
     now = datetime.datetime.now()
 
+    total = len(data)  # Общее количество элементов в очереди
+    current = 0  # Текущее количество обработанных элементов
+
+
     def process_item(item):
+        nonlocal current
         url = f'https://api.yclients.com/api/v1/client/{salon}/{item["id"]}'
         payload = json.dumps({
             "id": item['id'],
@@ -269,10 +294,14 @@ def saveResult(salon, data, headers, usertoken):
         })
 
         response = requests.request("PUT", url, headers=headers, data=payload)
-        print(response.text)
-        
-    with ThreadPoolExecutor(max_workers=3) as executor:
+        # Увеличиваем текущее количество обработанных элементов
+        current += 1
+        socketio.emit('saveResult', {'counter': {'currentcount': current, 'totalclients': total}})
+
+    with ThreadPoolExecutor() as executor:
         executor.map(process_item, data)
+        
+        
         
     end = datetime.datetime.now()
     print(f"query is running {end-now}")
@@ -327,4 +356,5 @@ def get_report():
 
     except Exception as e:
         return jsonify({'status': 'error', 'text': f'{e}'})
+
 

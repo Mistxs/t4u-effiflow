@@ -1,16 +1,35 @@
+// Вывод сообщений
 
 
 
-function displayErrorMessage(message) {
-    var errorMessage = $('#error-message');
-    errorMessage.text(message);
-    errorMessage.removeClass('alert-success').addClass('alert-danger').slideDown();
+function displayMessage(message, messageType) {
+
+    var messageContainer = $('#message-container');
+    var messageText = $('#message-text');
+
+    messageText.text(message);
+
+    if (messageType === 'error') {
+        messageContainer.removeClass('alert-success alert-info').addClass('alert-danger');
+    } else if (messageType === 'success') {
+        messageContainer.removeClass('alert-danger alert-info').addClass('alert-success');
+    } else if (messageType === 'info') {
+        messageContainer.removeClass('alert-danger alert-success').addClass('alert-info');
+    }
+
+    openMessage(messageContainer);
+
+    $('#close-message').on('click', function() {
+        closeMessage(messageContainer);
+    });
 }
 
-function displaySuccessMessage(message) {
-    var errorMessage = $('#error-message');
-    errorMessage.text(message);
-    errorMessage.removeClass('alert-danger').addClass('alert-success').slideDown();
+function openMessage(container) {
+    container.slideDown();
+}
+
+function closeMessage(container) {
+    container.slideUp();
 }
 
 
@@ -51,9 +70,10 @@ function getClients() {
               });
              // Скрываем спиннер и разблокируем кнопку после выполнения запроса
             buttonElement.disabled = false;
+            displayMessage("Клиенты получены", 'success');
             spinnerElement.style.display = 'none';
         } else if (data.status === 'error') {
-            displayErrorMessage(data.text);
+            displayMessage(data.text, 'error');
             buttonElement.disabled = false;
             spinnerElement.style.display = 'none';
 
@@ -119,11 +139,12 @@ function parseFIO() {
             displayClients(clients)
             buttonElement.disabled = false;
             spinnerElement.style.display = 'none';
-            displaySuccessMessage("Парсинг выполнен успешно")
+            displayMessage("Разбили на ФИО успешно", 'success');
+
             getReport()
 
         } else if (data.status === 'error') {
-            displayErrorMessage(data.text);
+            displayMessage(data.text, 'error');
             buttonElement.disabled = false;
             spinnerElement.style.display = 'none';
 
@@ -217,10 +238,10 @@ function saveResult() {
             // Скрываем спиннер и разблокируем кнопку после выполнения запроса
             buttonElement.disabled = false;
             spinnerElement.style.display = 'none';
-            displaySuccessMessage(data.text)
+            displayMessage(data.text, 'success')
 
         } else if (data.status === 'error') {
-            displayErrorMessage(data.text);
+            displayMessage(data.text, 'error');
             // Скрываем спиннер и разблокируем кнопку после выполнения запроса
             buttonElement.disabled = false;
             spinnerElement.style.display = 'none';
@@ -238,3 +259,21 @@ document.querySelectorAll('.btn').forEach(function(btn) {
   }
 });
 
+
+var socket = io({ transports: ['websocket'] });
+
+socket.on('parseclients', function (data) {
+    displayMessage("1. Получение клиентов: " + data.counter.currentcount + ' / ' + data.counter.totalclients,"info");
+});
+
+socket.on('addedBD', function (data) {
+    displayMessage("2. Добавляем дату рождения: " + data.counter.currentcount + ' / ' + data.counter.totalclients,"info");
+});
+
+socket.on('splitFIO', function (data) {
+    displayMessage("3. Разбиваем ФИО: " + data.counter.currentcount + ' / ' + data.counter.totalclients,"info");
+});
+
+socket.on('saveResult', function (data) {
+    displayMessage("4. Сохраняем изменения: " + data.counter.currentcount + ' / ' + data.counter.totalclients,"info");
+});

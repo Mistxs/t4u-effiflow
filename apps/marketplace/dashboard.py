@@ -7,7 +7,7 @@ from config import db_params, eddy_headers
 
 import requests
 
-from flask_socketio import SocketIO, emit
+from apps.more.socketio_setup import socketio
 import time
 from threading import Thread
 import random
@@ -16,7 +16,6 @@ import pymysql
 connection = pymysql.connect(**db_params)
 
 dashboard_bp = Blueprint('dashboard', __name__, url_prefix='/marketplace')
-socketio = SocketIO(transports='websocket', ping_interval=60, ping_timeout=20)
 
 ts = datetime.now()
 timezone = timezone('Etc/GMT-3')

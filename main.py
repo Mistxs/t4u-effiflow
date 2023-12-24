@@ -18,8 +18,9 @@ from flask_cors import CORS
 
 from apps.loadclients import loadclients
 from apps.marketplace.mpHandler import mpHandler
-from apps.marketplace.dashboard import dashboard_bp, socketio
+from apps.marketplace.dashboard import dashboard_bp
 
+from apps.more.socketio_setup import socketio
 
 from apps.database_connector import db_connector
 
@@ -70,5 +71,5 @@ def page_engine(route,page_name):
 
 if __name__ == '__main__':
     socketio.init_app(app)
-    # socketio.run(app, port=3190,allow_unsafe_werkzeug=True )
-    socketio.run(app, port=3000)
+    socketio.run(app, port=3000,allow_unsafe_werkzeug=True )
+    # socketio.run(app, port=3000)
