@@ -233,12 +233,24 @@
               <div data-i18n="Basic">Сплиттер ФИО</div>
             </a>
           </li>
-<!--          <li class="menu-item {% if active_page == 'doubleslots' %} active{% endif %}">-->
-<!--           <a href="{{ url_for('page_engine', page_name='doubleslots', route='2ndline') }}" class="menu-link">-->
-<!--              <i class="menu-icon tf-icons bx bx-collection"></i>-->
-<!--              <div data-i18n="Basic">Пересохранение расписания</div>-->
-<!--            </a>-->
-<!--          </li>-->
+          <li class="menu-item {% if active_page == 'doubleslots' %} active{% endif %}">
+           <a href="{{ url_for('page_engine', page_name='doubleslots', route='2ndline') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-table"></i>
+              <div data-i18n="Basic">Пересохранение расписания</div>
+            </a>
+          </li>
+          <li class="menu-item {% if active_page == 'demo' %} active{% endif %}">
+           <a href="{{ url_for('page_engine', page_name='demo', route='supermod') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-code-curly"></i>
+              <div data-i18n="Basic">Быстрые запросы</div>
+            </a>
+          </li>
+          <li class="menu-item {% if active_page == 'dashboard' %} active{% endif %}">
+           <a href="{{ url_for('page_engine', page_name='dashboard', route='marketplace') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+              <div data-i18n="Basic">Дашборд по маркетплейсу</div>
+            </a>
+          </li>
           <li class="menu-item {% if active_page == 'search' %} active{% endif %}">
             <a href="{{ url_for('page_engine', page_name='search', route='2ndline') }}" class="menu-link">
               <i class="menu-icon tf-icons bx bx-search-alt-2"></i>
@@ -268,7 +280,7 @@
           </li>
           <li class="menu-item {% if active_page == 'exportgoods' %} active{% endif %}">
                   <a href="{{ url_for('page_engine', page_name='exportgoods', route='vnedrenie')}}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bxs-copy-alt"></i>
+                    <i class="menu-icon tf-icons bx bxs-file-doc"></i>
                     <div data-i18n="Basic">Выгрузка сетевых товаров</div>
                   </a>
           </li>
@@ -335,7 +347,7 @@
                   По любым вопросам работы приложения пишите сразу в Slack.
                 </div>
                 <div>
-                  <a href="https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/tools4u" class="footer-link me-4" target="_blank">Tools4U</a>
+                  <a href="https://b5898dc6e4bc-8806955829454616363.ngrok-free.app/tools4u" class="footer-link me-4" target="_blank">Tools 4 Lulz (ngrok)</a>
                   <a href="https://wiki.yandex.ru/product/second-line/tools4u-guide/" target="_blank" class="footer-link me-4">Страница в WIKI</a>
                   <a href="https://wiki.yandex.ru/product/second-line/tools4u-guide/" target="_blank" class="footer-link me-4" data-bs-toggle="modal"
                           data-bs-target="#backDropModal">Экстренные контакты</a>
