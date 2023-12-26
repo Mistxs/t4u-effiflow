@@ -1,3 +1,4 @@
+import threading
 from datetime import datetime
 from apps.marketplace.dashboard import hookHandler, readTickets
 from apps.marketplace.src.api_schemas import route_schemas
@@ -103,8 +104,11 @@ def read_new_moderation_request():
             "app_url": response["app_url"]
         }
 
-        resp = createNewPage(params)
-        logger.info(f"read_new_moderation_request done : status: success, response: {resp}")
+        # Запускаем createNewPage в отдельном потоке
+        thread = threading.Thread(target=createNewPage, args=(params,))
+        thread.start()
+        # resp = createNewPage(params)
+        # logger.info(f"read_new_moderation_request done : status: success, response: {resp}")
 
 
         return jsonify({'status': 'success', 'text': 'saved'})
