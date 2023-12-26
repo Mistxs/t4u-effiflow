@@ -14,3 +14,5 @@ apps/__pycache__/search.cpython-310.pyc
 mpHandler.2023-12-19_14-21-20_038171.log
 mpHandler.log
 *.xml
+mpHandler.log
+*.xml
