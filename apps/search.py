@@ -14,10 +14,11 @@ def search():
     return jsonify({'data': data, 'count': count, 'statuses': list(set([item['status'] for item in data]))})
 
 def yasearch(value):
-    url = "https://api.tracker.yandex.net/v2/issues/_search?perPage=10000"
+    print(value)
+    url = "https://api.tracker.yandex.net/v2/issues/_search?perPage=1000"
     payload = json.dumps({
-        "query": value
-    })
+            "query": value
+        })
     headers = {
         'Authorization': f'{yakey}',
         'X-Org-ID': '167455',
