@@ -10,7 +10,7 @@ from flask import jsonify, request, Blueprint
 from jsonschema import validate, ValidationError
 from loguru import logger
 
-
+from apps.marketplace.src.notionservices import insertIntoDB, get_from_DB
 from config import db_params
 
 
@@ -61,6 +61,38 @@ def validate_json(route, data):
         validate(data, route_schemas.get(route, {}))
     except ValidationError as e:
         raise e
+
+
+@mpHandler.route('/marketplace/notion/hooks', methods=['POST'])
+def read_notion_Hooks():
+    try:
+        response = request.json
+
+
+
+        insertdata = {
+            "title": response["title"],
+            "notion_id":response["id"],
+            "status":response["status"],
+            "date_create": datetime.strptime(response["last_edited_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
+        }
+
+        is_old = get_from_DB(response["id"])
+
+        if is_old:
+            insertdata["prev_status"] = get_from_DB(response["id"], "order by date_create desc limit 1")[-1][3]
+            insertdata["is_favourite"] = get_from_DB(response["id"], "order by date_create desc limit 1")[-1][6]
+            insertdata["is_trash"] = get_from_DB(response["id"], "order by date_create desc limit 1")[-1][7]
+            insertdata["deleted"] = get_from_DB(response["id"], "order by date_create desc limit 1")[-1][8]
+
+        print(response)
+
+        insertIntoDB(insertdata)
+
+        return jsonify({'status': 'success', 'text': f'saved'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'text': f'{e}'})
+
 
 @mpHandler.route('/marketplace/chathandler', methods=['POST'])
 def readHooks():
