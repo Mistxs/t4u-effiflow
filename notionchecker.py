@@ -40,7 +40,7 @@ def get_from_notion_database():
         cursor = conn.cursor()
 
         query = f"""
-        select * from notion_database;
+        select title, status, last_edited_time, id, link from notion_database where deleted = 0;
         """
         cursor.execute(query)
 
@@ -59,12 +59,16 @@ def synchronize_with_database(new_data):
         conn = pymysql.connect(**db_params)
         cursor = conn.cursor()
 
-        for item in new_data:
-            cursor.execute("SELECT * FROM notion_database WHERE id = %s", (item['id'],))
-            existing_data = cursor.fetchone()
+        # Получаем все записи из базы данных
+        cursor.execute("SELECT * FROM notion_database")
+        existing_data = cursor.fetchall()
 
-            if existing_data:
-                # Если запись существует, обновляем ее
+        # Получаем список id существующих записей в базе данных
+        existing_ids = set(row[3] for row in existing_data)
+
+        for item in new_data:
+            if item['id'] in existing_ids:
+                # Запись существует в базе данных, обновляем ее значения
                 update_query = """
                     UPDATE notion_database
                     SET title = %s, status = %s, last_edited_time = %s, link = %s
@@ -72,12 +76,17 @@ def synchronize_with_database(new_data):
                 """
                 cursor.execute(update_query, (item['title'], item['status'], item['last_edited_time'], item['link'], item['id']))
             else:
-                # Если записи нет, вставляем новую запись
+                # Запись отсутствует в базе данных, вставляем новую запись
                 insert_query = """
-                    INSERT INTO notion_database (title, status, last_edited_time, id, link)
-                    VALUES (%s, %s, %s, %s, %s)
+                    INSERT INTO notion_database (title, status, last_edited_time, id, link, deleted)
+                    VALUES (%s, %s, %s, %s, %s, %s)
                 """
-                cursor.execute(insert_query, (item['title'], item['status'], item['last_edited_time'], item['id'], item['link']))
+                cursor.execute(insert_query, (item['title'], item['status'], item['last_edited_time'], item['id'], item['link'], False))
+
+        # Помечаем как удаленные записи, которых нет в новых данных
+        deleted_ids = existing_ids - set(item['id'] for item in new_data)
+        for deleted_id in deleted_ids:
+            cursor.execute("UPDATE notion_database SET deleted = True WHERE id = %s", (deleted_id,))
 
         # Завершаем транзакцию и закрываем соединение
         conn.commit()
@@ -87,10 +96,14 @@ def synchronize_with_database(new_data):
     except Exception as error:
         print("Ошибка при синхронизации данных:", error)
 
+
 def checkUpdates():
     newdata = getmoderationList()
+    print(newdata)
     currentdata = get_from_notion_database()
+    print(currentdata)
     if newdata != currentdata:
+        print("ne ok")
         synchronize_with_database(newdata)
 
 
