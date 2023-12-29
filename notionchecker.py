@@ -109,12 +109,11 @@ def synchronize_with_database(new_data):
         print("Ошибка при синхронизации данных:", error)
 
 def generateHooks(changed_entities):
-    url = "https://t4u.rety87nm.ru/marketplace/notion/hooks"
+    url = "http://127.0.0.1:3000/marketplace/notion/hooks"
     headers = {
         'Content-Type': 'application/json'
     }
     response = requests.post(url, json=changed_entities, headers=headers)
-
     if response.status_code != 200:
         print(f"Ошибка при отправке webhook: {response.status_code} - {response.text}")
 
