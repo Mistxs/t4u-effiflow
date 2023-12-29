@@ -20,7 +20,7 @@ def copytcard():
 
 
 def savecard(data, output_salon):
-    for cards in tqdm(data):
+    for cards in tqdm(data, desc='save cards'):
         url = f"https://yclients.com/technological_cards/save/{output_salon}/0"
 
         payload_items = []
@@ -49,7 +49,7 @@ def savecard(data, output_salon):
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Dest': 'empty',
             'host': 'yclients.com'}
-        print(payload)
+        # print(payload)
         response = requests.request("POST", url+secretkey, headers=headers, data=payload)
 
         print(response.text)
@@ -114,7 +114,7 @@ def getDataNewSalon(storage, goodTitle,input_salon,output_salon):
 
 def startCopy(input_salon, output_salon):
     data = getcard(input_salon)
-    for item in data:
+    for item in tqdm(data, desc='update datas from new salon'):
         for k in item["items"]:
             storage = k["storage_id"]
             good_title = k["good_title"]

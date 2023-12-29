@@ -85,7 +85,9 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('/marketplace/data')
         .then(response => response.json())
         .then(data => {
-            generateList(data);
+            console.log(data);
+            generateList(data.messages);
+            generateListModeration(data.moderations);
         });
 
     document.getElementById('tgButton').addEventListener('click', function (event) {
@@ -132,6 +134,40 @@ document.addEventListener('DOMContentLoaded', function () {
         list.appendChild(listItem);
         });
     }
+
+    function generateListModeration(data) {
+    const list = document.getElementById('moderationList');
+    // Очистка списка
+    list.innerHTML = '';
+
+    // Добавление элементов в список
+    data.forEach(function (row) {
+        const listItem = document.createElement('a');
+        listItem.href = row.link;  // Заменено на ссылку из данных
+        listItem.classList.add('list-group-item', 'list-group-item-action', 'd-flex', 'justify-content-between', 'align-items-center');
+
+        const titleSpan = document.createElement('span');
+        titleSpan.classList.add('mp-title');
+        titleSpan.textContent = row.title;
+
+        const badgeSpan = document.createElement('span');
+        badgeSpan.classList.add('badge', 'bg-warning');  // Заменено на цвет из данных
+        badgeSpan.textContent = row.status;
+
+        const externalLinkIcon = document.createElement('i');
+        externalLinkIcon.classList.add('bx', 'bx-link-external');
+
+        listItem.appendChild(titleSpan);
+        listItem.appendChild(badgeSpan);
+        listItem.appendChild(externalLinkIcon);
+
+        list.appendChild(listItem);
+    });
+}
+
+
+
+
 
 
 var socket = io({ transports: ['websocket'] });

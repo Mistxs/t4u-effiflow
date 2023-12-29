@@ -3,6 +3,8 @@ from datetime import datetime
 from pytz import timezone
 
 from flask import Blueprint, render_template, jsonify, request
+
+from apps.marketplace.moderation import getPagesfromNotion, formatNotionData
 from config import db_params, eddy_headers
 
 import requests
@@ -28,7 +30,9 @@ def index():
 @dashboard_bp.route('/data')
 def get_data():
     # Получение данных из базы данных
-    data = get_data_from_database()
+    messageList = get_data_from_database()
+    moderationList = get_moderationList()
+    data={"messages":messageList, "moderations":moderationList}
     # Возвращение данных в формате JSON
     return jsonify(data)
 
@@ -159,3 +163,8 @@ def readTickets(data):
     new_data = get_data_from_database()
     formatted_data = format_data_for_json(new_data)
     socketio.emit('update_table', {'data': formatted_data})
+
+def get_moderationList():
+    pages = getPagesfromNotion()
+    lists = formatNotionData(pages)
+    return lists

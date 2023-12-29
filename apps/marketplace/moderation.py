@@ -67,3 +67,42 @@ def createNewPage(payloadparams,content=blocks):
     except Exception as e:
         raise e
 
+def getPagesfromNotion():
+    try:
+        url = f"https://api.notion.com/v1/databases/{ntn_db_id}/query"
+
+        payload = json.dumps({
+                "page_size": 100
+        })
+
+        headers = {
+            'Authorization': f'Bearer {NOTION_TOKEN}',
+            'Content-Type': 'application/json',
+            'Notion-Version': '2022-06-28'
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload)
+
+        if response.status_code != 200:
+            raise Exception(f"Error in post page. Notion response: {response.text}")
+        return response.json()
+    except Exception as e:
+        raise e
+
+def formatNotionData(data):
+    formattedData = []
+    for item in data["results"]:
+        newitem = {
+            "title": item["properties"]["Имя партнера"]["title"][0]["text"]["content"],
+            "status": item["properties"]["Статус"]["select"]["name"],
+            "last_edited_time": item["last_edited_time"],
+            "id":item["id"],
+            "link":item["url"]
+        }
+        formattedData.append(newitem)
+    return formattedData
+
+
+
+pages = getPagesfromNotion()
+print(formatNotionData(pages))
