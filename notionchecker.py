@@ -109,7 +109,7 @@ def synchronize_with_database(new_data):
         print("Ошибка при синхронизации данных:", error)
 
 def generateHooks(changed_entities):
-    url = "https://127.0.0.1:3000/marketplace/notion/hooks"
+    url = "https://8c3d-51-250-101-0.ngrok-free.app/marketplace/notion/hooks"
     response = requests.post(url, json=changed_entities)
 
     if response.status_code != 200:
