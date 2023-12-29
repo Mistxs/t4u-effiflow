@@ -1,5 +1,6 @@
 import requests
 import json
+
 from apps.marketplace.src.newpageblocks import blocks
 from config import NOTION_TOKEN, ntn_db_id
 
@@ -101,7 +102,3 @@ def formatNotionData(data):
         }
         formattedData.append(newitem)
     return formattedData
-
-
-
-pages = getPagesfromNotion()

@@ -15,6 +15,8 @@ from threading import Thread
 import random
 import pymysql
 
+from notionchecker import get_from_notion_database
+
 connection = pymysql.connect(**db_params)
 
 dashboard_bp = Blueprint('dashboard', __name__, url_prefix='/marketplace')
@@ -31,7 +33,7 @@ def index():
 def get_data():
     # Получение данных из базы данных
     messageList = get_data_from_database()
-    moderationList = get_moderationList()
+    moderationList = get_from_notion_database()
     data={"messages":messageList, "moderations":moderationList}
     # Возвращение данных в формате JSON
     return jsonify(data)
@@ -57,7 +59,7 @@ def handle_favourite_status(data):
     new_data = get_data_from_database()
     formatted_data = format_data_for_json(new_data)
     socketio.emit('update_table', {'data': list(formatted_data)})
-    emit('favourite_status_updated', {'success': True})
+    socketio.emit('favourite_status_updated', {'success': True})
 
 
 def get_data_from_database():
@@ -128,6 +130,9 @@ def set_reading_to_database(ticket_id, flag):
         print(f"Error: {e}")
 
 
+def notionHookHandler():
+    list = get_from_notion_database()
+    socketio.emit('update_moderation_table', {'data': list})
 
 def format_data_for_json(data):
     formatted_data = []

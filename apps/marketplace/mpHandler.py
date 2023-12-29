@@ -1,6 +1,6 @@
 import threading
 from datetime import datetime
-from apps.marketplace.dashboard import hookHandler, readTickets
+from apps.marketplace.dashboard import hookHandler, readTickets, notionHookHandler
 from apps.marketplace.src.api_schemas import route_schemas
 from apps.marketplace.moderation import createNewPage
 
@@ -10,7 +10,7 @@ from flask import jsonify, request, Blueprint
 from jsonschema import validate, ValidationError
 from loguru import logger
 
-from apps.marketplace.src.notionservices import insertIntoDB, get_from_DB
+from apps.marketplace.src.notionservices import insertIntoDB, get_from_DB, updateDB
 from config import db_params
 
 
@@ -68,26 +68,31 @@ def read_notion_Hooks():
     try:
         response = request.json
 
+        # for item in response:
+        #     deleted = item.get("deleted", False)
+        #     print(item)
+        #     if deleted:
+        #         updateDB(item["id"],"deleted = True")
+        #     else:
+        #         insertdata = {
+        #             "title": item["title"],
+        #             "notion_id":item["id"],
+        #             "status":item["status"],
+        #             "date_create": datetime.strptime(item["last_edited_time"], "%Y-%m-%dT%H:%M:%S.%fZ"),
+        #             "link":item["link"]
+        #         }
+        #
+        #         is_old = get_from_DB(item["id"])
+        #
+        #         if is_old:
+        #             insertdata["prev_status"] = get_from_DB(item["id"], "order by date_create desc limit 1")[-1][3]
+        #             insertdata["is_favourite"] = get_from_DB(item["id"], "order by date_create desc limit 1")[-1][6]
+        #             insertdata["is_trash"] = get_from_DB(item["id"], "order by date_create desc limit 1")[-1][7]
+        #             insertdata["deleted"] = get_from_DB(item["id"], "order by date_create desc limit 1")[-1][8]
+        #
+        #         insertIntoDB(insertdata)
+        notionHookHandler()
 
-
-        insertdata = {
-            "title": response["title"],
-            "notion_id":response["id"],
-            "status":response["status"],
-            "date_create": datetime.strptime(response["last_edited_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
-        }
-
-        is_old = get_from_DB(response["id"])
-
-        if is_old:
-            insertdata["prev_status"] = get_from_DB(response["id"], "order by date_create desc limit 1")[-1][3]
-            insertdata["is_favourite"] = get_from_DB(response["id"], "order by date_create desc limit 1")[-1][6]
-            insertdata["is_trash"] = get_from_DB(response["id"], "order by date_create desc limit 1")[-1][7]
-            insertdata["deleted"] = get_from_DB(response["id"], "order by date_create desc limit 1")[-1][8]
-
-        print(response)
-
-        insertIntoDB(insertdata)
 
         return jsonify({'status': 'success', 'text': f'saved'})
     except Exception as e:

@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
     data.forEach(function (row) {
         const listItem = document.createElement('a');
         listItem.href = row.link;  // Заменено на ссылку из данных
+        listItem.target = '_blank';
         listItem.classList.add('list-group-item', 'list-group-item-action', 'd-flex', 'justify-content-between', 'align-items-center');
 
         const titleSpan = document.createElement('span');
@@ -151,7 +152,36 @@ document.addEventListener('DOMContentLoaded', function () {
         titleSpan.textContent = row.title;
 
         const badgeSpan = document.createElement('span');
-        badgeSpan.classList.add('badge', 'bg-warning');  // Заменено на цвет из данных
+        badgeSpan.classList.add('badge');  // Заменено на цвет из данных
+                // Установка цвета в зависимости от статуса
+        switch (row.status) {
+            case 'Успешно':
+                badgeSpan.classList.add('bg-success');
+                break;
+            case 'Повторная проверка':
+                badgeSpan.classList.add('bg-warning');
+                break;
+            case 'Ожидание партнера':
+                badgeSpan.classList.add('bg-dark');
+                break;
+            case 'В процессе':
+                badgeSpan.classList.add('bg-primary');
+                break;
+            case 'Ручная проверка':
+                badgeSpan.classList.add('bg-danger');
+                break;
+            case 'Автопроверка':
+                badgeSpan.classList.add('bg-secondary');
+                break;
+            case 'Новый':
+                badgeSpan.classList.add('bg-info');
+                break;
+            default:
+                // Дефолтный цвет или обработка других статусов по вашему усмотрению
+                badgeSpan.classList.add('bg-secondary');
+                break;
+        }
+
         badgeSpan.textContent = row.status;
 
         const externalLinkIcon = document.createElement('i');
@@ -184,6 +214,11 @@ var socket = io({ transports: ['websocket'] });
     socket.on('update_table', function (data) {
             const newData = data.data;
             generateList(newData);
+        });
+
+    socket.on('update_moderation_table', function (data) {
+            const newData = data.data;
+            generateListModeration(newData);
         });
 
 

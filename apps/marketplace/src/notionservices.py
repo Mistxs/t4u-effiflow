@@ -1,8 +1,8 @@
 from datetime import datetime
-
 import pymysql
-
 from config import db_params
+
+# пока в трубу, так как нафига козе боян, а мне две одинаковые таблицы. выезжаю за счет notionchecker
 
 #работа с БД
 def insertIntoDB(data):
@@ -65,24 +65,5 @@ def updateDB(notion_id, moreexp="is_favourite = False"):
         conn.close()
 
     except Exception as e:
-        print(f"Error in get_from_DB: {e}")
+        print(f"Error in updateDB: {e}")
 
-#
-# data = {
-#     "title": "самий новий строка бля",
-#     "notion_id":"123-333",
-#     "status":"moderation",
-#     "prev_status": get_from_DB('123-333', "order by date_create desc limit 1")[-1][3],
-#     "date_create": datetime.strptime("2023-12-28T17:44:00.000Z","%Y-%m-%dT%H:%M:%S.%fZ"),
-#     "is_favourite": False,
-#     "is_trash": False,
-#     "deleted": False
-# }
-
-
-# insertIntoDB(data)
-
-# print(get_from_DB('123-332'))
-updateDB("5126e063-bd02-49e9-9364-c2e8b281b363", "is_trash = 1, is_favourite=1")
-#
-print(get_from_DB("5126e063-bd02-49e9-9364-c2e8b281b363"))

@@ -1,4 +1,7 @@
+import time
+
 import pymysql
+import requests
 
 from apps.marketplace.moderation import getPagesfromNotion, formatNotionData
 from config import db_params
@@ -60,21 +63,26 @@ def synchronize_with_database(new_data):
         cursor = conn.cursor()
 
         # Получаем все записи из базы данных
-        cursor.execute("SELECT * FROM notion_database")
+        cursor.execute("select title, status, last_edited_time, id, link from notion_database where deleted = 0;")
         existing_data = cursor.fetchall()
 
         # Получаем список id существующих записей в базе данных
-        existing_ids = set(row[3] for row in existing_data)
+        existing_records = {row[3]: dict(zip(['title', 'status', 'last_edited_time', 'id', 'link', 'deleted'], row)) for row in existing_data}
+        changed_entities = []
 
         for item in new_data:
-            if item['id'] in existing_ids:
-                # Запись существует в базе данных, обновляем ее значения
-                update_query = """
-                    UPDATE notion_database
-                    SET title = %s, status = %s, last_edited_time = %s, link = %s
-                    WHERE id = %s
-                """
-                cursor.execute(update_query, (item['title'], item['status'], item['last_edited_time'], item['link'], item['id']))
+            existing_record = existing_records.get(item['id'])
+            if existing_record:
+                # Запись существует в базе данных, проверяем, изменились ли данные
+                if existing_record != item:
+                    # Данные изменились, обновляем запись в базе данных
+                    update_query = """
+                        UPDATE notion_database
+                        SET title = %s, status = %s, last_edited_time = %s, link = %s
+                        WHERE id = %s
+                    """
+                    cursor.execute(update_query, (item['title'], item['status'], item['last_edited_time'], item['link'], item['id']))
+                    changed_entities.append(item)
             else:
                 # Запись отсутствует в базе данных, вставляем новую запись
                 insert_query = """
@@ -82,28 +90,36 @@ def synchronize_with_database(new_data):
                     VALUES (%s, %s, %s, %s, %s, %s)
                 """
                 cursor.execute(insert_query, (item['title'], item['status'], item['last_edited_time'], item['id'], item['link'], False))
-
+                changed_entities.append(item)
         # Помечаем как удаленные записи, которых нет в новых данных
-        deleted_ids = existing_ids - set(item['id'] for item in new_data)
+        deleted_ids = set(existing_records.keys()) - set(item['id'] for item in new_data)
         for deleted_id in deleted_ids:
             cursor.execute("UPDATE notion_database SET deleted = True WHERE id = %s", (deleted_id,))
+            changed_entities.append({'id': deleted_id, 'deleted': True})
 
         # Завершаем транзакцию и закрываем соединение
         conn.commit()
         cursor.close()
         conn.close()
+        if changed_entities:
+            generateHooks(changed_entities)
+
 
     except Exception as error:
         print("Ошибка при синхронизации данных:", error)
 
+def generateHooks(changed_entities):
+    url = "https://t4u.rety87nm.ru/marketplace/notion/hooks"
+    response = requests.post(url, json=changed_entities)
+
+    if response.status_code != 200:
+        print(f"Ошибка при отправке webhook: {response.status_code} - {response.text}")
+
 
 def checkUpdates():
     newdata = getmoderationList()
-    print(newdata)
     currentdata = get_from_notion_database()
-    print(currentdata)
     if newdata != currentdata:
-        print("ne ok")
         synchronize_with_database(newdata)
 
 
