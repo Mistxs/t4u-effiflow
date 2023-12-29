@@ -83,7 +83,6 @@ def synchronize_with_database(new_data):
         conn.commit()
         cursor.close()
         conn.close()
-        print("Данные успешно синхронизированы с базой данных")
 
     except Exception as error:
         print("Ошибка при синхронизации данных:", error)
@@ -91,10 +90,9 @@ def synchronize_with_database(new_data):
 def checkUpdates():
     newdata = getmoderationList()
     currentdata = get_from_notion_database()
-    if newdata == currentdata:
-        print("OK")
-    else:
+    if newdata != currentdata:
         synchronize_with_database(newdata)
+
 
 checkUpdates()
 

@@ -105,4 +105,3 @@ def formatNotionData(data):
 
 
 pages = getPagesfromNotion()
-print(formatNotionData(pages))
