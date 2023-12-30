@@ -20,7 +20,7 @@ pageindex = {
 "extensions": "Расширения",
 "superbar": ".superbar",
 "dashboard": "Маркетплейс",
-"demo": "Демо"
+"bd_query": "Быстрые запросы к БД"
 }
 
 notionindex = {

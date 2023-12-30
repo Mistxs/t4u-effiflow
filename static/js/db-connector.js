@@ -39,6 +39,36 @@ document.addEventListener('DOMContentLoaded', function () {
         sendQuery(flag,salon_id)
     });
 
+    function displayResult(data) {
+    var table = $('<table class="table table-hover table-striped table-responsive">');
+    var thead = $('<thead>').append('<tr><th>Дата изменения</th><th>ID Юзера</th><th>Телефон юзера</th><th>Имя юзера</th><th>Название приложения</th><th>Предыдущий статус</th><th>Новый статус</th><th>Источник изменения</th></tr>');
+    table.append(thead);
+
+    var tbody = $('<tbody>');
+    for (var i = 0; i < data.length; i++) {
+        var record = data[i];
+        var row = $('<tr>');
+        row.append('<td>' + record.changed_at + '</td>');
+        row.append('<td>' + record.user_id + '</td>');
+        row.append('<td>' + record.phone + '</td>');
+        row.append('<td>' + record.firstname + '</td>');
+        row.append('<td>' + record.title + '</td>');
+        row.append('<td>' + record.status_to + '</td>');
+        row.append('<td>' + record.status_from + '</td>');
+        row.append('<td>' + record.source + '</td>');
+
+
+
+
+
+        tbody.append(row);
+    }
+
+    table.append(tbody);
+
+    $('#result').empty().append(table);
+    }
+
     // Загрузка данных через AJAX запрос при загрузке страницы
     function sendQuery(flag, salon) {
     const buttonElement = document.getElementById('actButton');
@@ -82,6 +112,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const errorMessageHTML = "Антифрод включен. Запрос для отключения:<br><pre><code class='sql'>" + data.query + "</code></pre>  <br> Ответ от БД: <pre>" + data.sqlresponse + "</pre>";
                 displayErrorMessage(errorMessageHTML);
                 hljs.highlightAll()
+            }
+        } else if (flag === 'mp_log') {
+            if (data.result === 'empty') {
+                displaySuccessMessage('Возвращено 0 строк. Может, неверный филиал? Или не было установок');
+            } else {
+                displayResult(data.result);
             }
         }
     } else if (data.status === 'error') {
