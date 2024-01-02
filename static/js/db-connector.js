@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
         row.append('<td>' + record.phone + '</td>');
         row.append('<td>' + record.firstname + '</td>');
         row.append('<td>' + record.title + '</td>');
-        row.append('<td>' + record.status_to + '</td>');
         row.append('<td>' + record.status_from + '</td>');
+        row.append('<td>' + record.status_to + '</td>');
         row.append('<td>' + record.source + '</td>');
 
 
